@@ -2,6 +2,15 @@
 
 This app is a simple music player for Android and iOS.
 
+## Features
+
+* device music play
+* background play
+* favorite artists
+* favorite songs
+* playlists
+* shortcuts
+
 ## Environments
 
 ### host
