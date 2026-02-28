@@ -20,6 +20,12 @@ fun App() {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
                 Text(
+                    text = "Library",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(32.dp)
+                )
+                Text(
                     text = "Songs",
                     modifier = Modifier
                         .fillMaxWidth()
