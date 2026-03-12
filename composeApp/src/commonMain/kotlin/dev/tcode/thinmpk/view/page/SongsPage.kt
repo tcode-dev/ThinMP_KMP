@@ -20,11 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.viewmodel.SongsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SongsPage(viewModel: SongsViewModel = viewModel()) {
+fun SongsPage(
+    viewModel: SongsViewModel = viewModel(factory = viewModelFactory { initializer { SongsViewModel() } })
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
