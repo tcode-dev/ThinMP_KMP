@@ -1,6 +1,7 @@
 package dev.tcode.thinmpk
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -19,19 +20,21 @@ fun App() {
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
-                Text(
-                    text = "Library",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(32.dp)
-                )
-                Text(
-                    text = "Songs",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { navController.navigate("songs") }
-                        .padding(16.dp)
-                )
+                Column {
+                    Text(
+                        text = "Library",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(32.dp)
+                    )
+                    Text(
+                        text = "Songs",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { navController.navigate("songs") }
+                            .padding(16.dp)
+                    )
+                }
             }
             composable("songs") {
                 SongsPage()
