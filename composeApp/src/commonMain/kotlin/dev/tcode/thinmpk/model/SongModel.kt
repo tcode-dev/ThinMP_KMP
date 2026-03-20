@@ -7,4 +7,5 @@ data class SongModel(
     val albumId: String,
     val albumName: String,
     val duration: Int,
+    val imageId: String,
 )

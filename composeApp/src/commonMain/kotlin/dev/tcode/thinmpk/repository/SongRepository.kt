@@ -4,4 +4,5 @@ import dev.tcode.thinmpk.model.SongModel
 
 expect class SongRepository() {
     fun findAll(): List<SongModel>
+    fun findById(id: String): SongModel?
 }

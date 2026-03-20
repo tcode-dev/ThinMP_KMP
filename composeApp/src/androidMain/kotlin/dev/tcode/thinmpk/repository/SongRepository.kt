@@ -5,6 +5,43 @@ import dev.tcode.thinmpk.MainApplication
 import dev.tcode.thinmpk.model.SongModel
 
 actual class SongRepository actual constructor() {
+    actual fun findById(id: String): SongModel? {
+        val context = MainApplication.appContext
+        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+            MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM_ID,
+            MediaStore.Audio.Media.ALBUM,
+            MediaStore.Audio.Media.DURATION,
+        )
+        val selection = "${MediaStore.Audio.Media._ID} = ?"
+        val selectionArgs = arrayOf(id)
+
+        return context.contentResolver.query(uri, projection, selection, selectionArgs, null)
+            ?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
+                    val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+                    val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+                    val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
+                    val albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
+                    val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+                    SongModel(
+                        id = cursor.getLong(idColumn).toString(),
+                        name = cursor.getString(titleColumn) ?: "",
+                        artistName = cursor.getString(artistColumn) ?: "",
+                        albumId = cursor.getLong(albumIdColumn).toString(),
+                        albumName = cursor.getString(albumColumn) ?: "",
+                        duration = cursor.getInt(durationColumn),
+                    )
+                } else {
+                    null
+                }
+            }
+    }
+
     actual fun findAll(): List<SongModel> {
         val context = MainApplication.appContext
         val songs = mutableListOf<SongModel>()
