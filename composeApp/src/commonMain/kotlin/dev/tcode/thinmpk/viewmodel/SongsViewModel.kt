@@ -25,13 +25,13 @@ class SongsViewModel : ViewModel() {
         val songs = songRepository.findAll()
 
         val artworks = mutableMapOf<String, ImageBitmap>()
-        val loadedAlbumIds = mutableSetOf<String>()
+        val imageIds = mutableSetOf<String>()
 
         for (song in songs) {
-            if (song.albumId in loadedAlbumIds) continue
-            loadedAlbumIds.add(song.albumId)
-            artworkRepository.getArtwork(song.albumId)?.let { bitmap ->
-                artworks[song.albumId] = bitmap
+            if (song.imageId in imageIds) continue
+            imageIds.add(song.imageId)
+            artworkRepository.getArtwork(song.imageId)?.let { bitmap ->
+                artworks[song.imageId] = bitmap
             }
         }
 
