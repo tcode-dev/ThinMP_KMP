@@ -8,35 +8,16 @@ import kotlinx.cinterop.usePinned
 import org.jetbrains.skia.Image as SkiaImage
 import platform.CoreGraphics.CGSizeMake
 import platform.Foundation.NSData
-import platform.MediaPlayer.MPMediaItem
-import platform.MediaPlayer.MPMediaItemPropertyAlbumPersistentID
-import platform.MediaPlayer.MPMediaItemPropertyIsCloudItem
-import platform.MediaPlayer.MPMediaPropertyPredicate
-import platform.MediaPlayer.MPMediaQuery
 import platform.UIKit.UIImagePNGRepresentation
 import platform.posix.memcpy
 
 actual class ArtworkRepository actual constructor() {
+    private val songRepository = SongRepository()
+
     @OptIn(ExperimentalForeignApi::class)
-    actual fun getArtwork(albumId: String): ImageBitmap? {
-        val albumPersistentID = albumId.toULongOrNull() ?: return null
-
-        val query = MPMediaQuery.albumsQuery()
-        query.addFilterPredicate(
-            MPMediaPropertyPredicate.predicateWithValue(
-                value = albumPersistentID,
-                forProperty = MPMediaItemPropertyAlbumPersistentID
-            )
-        )
-        query.addFilterPredicate(
-            MPMediaPropertyPredicate.predicateWithValue(
-                value = false,
-                forProperty = MPMediaItemPropertyIsCloudItem
-            )
-        )
-
-        val item = query.items?.firstOrNull() as? MPMediaItem ?: return null
-        val artwork = item.artwork ?: return null
+    actual fun getArtwork(id: String): ImageBitmap? {
+        val mediaItem = songRepository.findMediaItemById(id) ?: return null
+        val artwork = mediaItem.artwork ?: return null
         val uiImage = artwork.imageWithSize(CGSizeMake(100.0, 100.0)) ?: return null
         val nsData: NSData = UIImagePNGRepresentation(uiImage) ?: return null
 
