@@ -4,8 +4,8 @@ import android.provider.MediaStore
 import dev.tcode.thinmpk.MainApplication
 import dev.tcode.thinmpk.model.SongModel
 
-actual class SongRepository actual constructor() {
-    actual fun findById(id: String): SongModel? {
+class SongRepositoryImpl : SongRepository {
+    override fun findById(id: String): SongModel? {
         val context = MainApplication.appContext
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
@@ -34,6 +34,7 @@ actual class SongRepository actual constructor() {
                         artistName = cursor.getString(artistColumn) ?: "",
                         albumId = cursor.getLong(albumIdColumn).toString(),
                         albumName = cursor.getString(albumColumn) ?: "",
+                        imageId = cursor.getLong(albumIdColumn).toString(),
                         duration = cursor.getInt(durationColumn),
                     )
                 } else {
@@ -42,7 +43,7 @@ actual class SongRepository actual constructor() {
             }
     }
 
-    actual fun findAll(): List<SongModel> {
+    override fun findAll(): List<SongModel> {
         val context = MainApplication.appContext
         val songs = mutableListOf<SongModel>()
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -75,6 +76,7 @@ actual class SongRepository actual constructor() {
                             artistName = cursor.getString(artistColumn) ?: "",
                             albumId = cursor.getLong(albumIdColumn).toString(),
                             albumName = cursor.getString(albumColumn) ?: "",
+                            imageId = cursor.getLong(albumIdColumn).toString(),
                             duration = cursor.getInt(durationColumn),
                         )
                     )

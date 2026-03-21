@@ -9,18 +9,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 data class SongsUiState(
     val songs: List<SongModel> = emptyList(),
     val artworks: Map<String, ImageBitmap> = emptyMap(),
 )
 
-class SongsViewModel : ViewModel() {
+class SongsViewModel : ViewModel(), KoinComponent {
+    private val songRepository: SongRepository by inject()
     private val _uiState = MutableStateFlow(SongsUiState())
     val uiState: StateFlow<SongsUiState> = _uiState.asStateFlow()
 
     fun load() {
-        val songRepository = SongRepository()
         val artworkRepository = ArtworkRepository()
         val songs = songRepository.findAll()
 

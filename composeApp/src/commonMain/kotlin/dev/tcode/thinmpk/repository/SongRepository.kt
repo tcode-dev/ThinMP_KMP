@@ -2,7 +2,7 @@ package dev.tcode.thinmpk.repository
 
 import dev.tcode.thinmpk.model.SongModel
 
-expect class SongRepository() {
+interface SongRepository {
     fun findAll(): List<SongModel>
     fun findById(id: String): SongModel?
 }
