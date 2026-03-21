@@ -1,6 +1,8 @@
 package dev.tcode.thinmpk
 
 import android.app.Application
+import dev.tcode.thinmpk.di.androidModule
+import org.koin.core.context.startKoin
 
 class MainApplication : Application() {
     companion object {
@@ -11,5 +13,8 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
+        startKoin {
+            modules(androidModule)
+        }
     }
 }
