@@ -1,7 +1,7 @@
-import ComposeApp
 import MediaPlayer
+import ComposeApp
 
-class SongRepositoryImpl: SongRepository {
+class SongRepository {
     func findAll() -> [SongModel] {
         let query = MPMediaQuery.songs()
         query.addFilterPredicate(

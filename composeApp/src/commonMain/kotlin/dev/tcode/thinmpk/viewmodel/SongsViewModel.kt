@@ -3,8 +3,8 @@ package dev.tcode.thinmpk.viewmodel
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import dev.tcode.thinmpk.model.SongModel
+import dev.tcode.thinmpk.bridge.SongBridge
 import dev.tcode.thinmpk.repository.ArtworkRepository
-import dev.tcode.thinmpk.repository.SongRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,13 +18,13 @@ data class SongsUiState(
 )
 
 class SongsViewModel : ViewModel(), KoinComponent {
-    private val songRepository: SongRepository by inject()
+    private val songBridge: SongBridge by inject()
     private val _uiState = MutableStateFlow(SongsUiState())
     val uiState: StateFlow<SongsUiState> = _uiState.asStateFlow()
 
     fun load() {
         val artworkRepository = ArtworkRepository()
-        val songs = songRepository.findAll()
+        val songs = songBridge.findAll()
 
         val artworks = mutableMapOf<String, ImageBitmap>()
         val imageIds = mutableSetOf<String>()

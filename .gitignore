@@ -17,3 +17,7 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
+ThinMP_Android_Kotlin
+ThinMP_Flutter
+ThinMP_iOS
+ThinMP_ReactNative

@@ -4,8 +4,8 @@ import android.provider.MediaStore
 import dev.tcode.thinmpk.MainApplication
 import dev.tcode.thinmpk.model.SongModel
 
-class SongRepositoryImpl : SongRepository {
-    override fun findById(id: String): SongModel? {
+class SongRepository {
+    fun findById(id: String): SongModel? {
         val context = MainApplication.appContext
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
@@ -43,7 +43,7 @@ class SongRepositoryImpl : SongRepository {
             }
     }
 
-    override fun findAll(): List<SongModel> {
+    fun findAll(): List<SongModel> {
         val context = MainApplication.appContext
         val songs = mutableListOf<SongModel>()
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

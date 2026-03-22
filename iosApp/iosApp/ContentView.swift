@@ -4,7 +4,7 @@ import ComposeApp
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController(songRepository: SongRepositoryImpl())
+        MainViewControllerKt.MainViewController(songBridge: SongBridgeImpl())
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
