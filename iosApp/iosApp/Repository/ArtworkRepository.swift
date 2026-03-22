@@ -3,24 +3,18 @@ import UIKit
 
 class ArtworkRepository {
     func getArtwork(id: String) -> Data? {
+        let persistentID = UInt64(id)
+        let property = MPMediaPropertyPredicate(value: false, forProperty: MPMediaItemPropertyIsCloudItem)
         let query = MPMediaQuery.songs()
-        query.addFilterPredicate(
-            MPMediaPropertyPredicate(
-                value: false,
-                forProperty: MPMediaItemPropertyIsCloudItem
-            )
-        )
 
-        guard let collections = query.collections else { return nil }
+        query.addFilterPredicate(property)
 
-        guard let collection = collections.first(where: {
-            $0.representativeItem?.persistentID.description == id
-        }) else { return nil }
+        guard let media = query.collections?.first(where: { persistentID == $0.representativeItem?.persistentID }) else {
+            return nil
+        }
 
-        guard let mediaItem = collection.representativeItem else { return nil }
-        guard let artwork = mediaItem.artwork else { return nil }
-        guard let uiImage = artwork.image(at: CGSize(width: 100, height: 100)) else { return nil }
+        let image = media.representativeItem?.artwork?.image(at: CGSize(width: 100, height: 100))
 
-        return uiImage.pngData()
+        return image?.pngData()
     }
 }

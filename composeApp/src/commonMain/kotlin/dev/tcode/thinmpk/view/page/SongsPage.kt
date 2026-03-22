@@ -61,7 +61,7 @@ fun SongsPage(
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    val artwork = uiState.artworks[song.albumId]
+                    val artwork = uiState.artworks[song.imageId]
                     if (artwork != null) {
                         Image(
                             bitmap = artwork,
