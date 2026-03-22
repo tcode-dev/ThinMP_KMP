@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.bridge.ArtworkBridge
 import dev.tcode.thinmpk.bridge.SongBridge
-import dev.tcode.thinmpk.converter.toImageBitmap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +32,7 @@ class SongsViewModel : ViewModel(), KoinComponent {
         for (song in songs) {
             if (song.imageId in imageIds) continue
             imageIds.add(song.imageId)
-            artworkBridge.getArtwork(song.imageId)?.toImageBitmap()?.let { bitmap ->
+            artworkBridge.getArtwork(song.imageId)?.let { bitmap ->
                 artworks[song.imageId] = bitmap
             }
         }

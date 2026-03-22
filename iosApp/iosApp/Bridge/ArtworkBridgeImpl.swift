@@ -1,6 +1,6 @@
 import ComposeApp
 
-class ArtworkBridgeImpl: ArtworkBridge {
+class ArtworkBridgeImpl: ArtworkDataBridge {
     private let artworkRepository = ArtworkRepository()
 
     func getArtwork(id: String) -> KotlinByteArray? {
