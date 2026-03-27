@@ -1,14 +1,10 @@
 package dev.tcode.thinmpk.view.page
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,12 +19,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import dev.tcode.thinmpk.view.component.image.ArtworkImage
 import dev.tcode.thinmpk.viewmodel.SongsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,21 +57,10 @@ fun SongsPage(
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    val artwork = uiState.artworks[song.imageId]
-                    if (artwork != null) {
-                        Image(
-                            bitmap = artwork,
-                            contentDescription = song.albumName,
-                            modifier = Modifier.size(50.dp),
-                            contentScale = ContentScale.Crop,
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .size(50.dp)
-                                .background(MaterialTheme.colorScheme.surfaceVariant),
-                        )
-                    }
+                    ArtworkImage(
+                        imageId = song.imageId,
+                        contentDescription = song.albumName,
+                    )
                     Column(
                         modifier = Modifier
                             .weight(1f)
