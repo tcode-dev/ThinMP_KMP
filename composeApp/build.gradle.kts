@@ -43,6 +43,7 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.coil.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
