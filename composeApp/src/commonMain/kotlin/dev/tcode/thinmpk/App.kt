@@ -17,10 +17,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import coil3.compose.setSingletonImageLoaderFactory
+import dev.tcode.thinmpk.coil.newImageLoader
 import dev.tcode.thinmpk.view.page.SongsPage
 
 @Composable
 fun App() {
+    setSingletonImageLoaderFactory { context ->
+        newImageLoader(context)
+    }
+
     val colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()
     MaterialTheme(colorScheme = colorScheme) {
         val navController = rememberNavController()

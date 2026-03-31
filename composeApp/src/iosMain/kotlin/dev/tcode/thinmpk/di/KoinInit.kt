@@ -12,7 +12,8 @@ fun initKoin(songBridge: SongBridge, artworkRepository: ArtworkRepository) {
         modules(
             module {
                 single<SongBridge> { songBridge }
-                single<ArtworkBridge> { ArtworkBridgeImpl(artworkRepository) }
+                single<ArtworkRepository> { artworkRepository }
+                single<ArtworkBridge> { ArtworkBridgeImpl(get()) }
             }
         )
     }
