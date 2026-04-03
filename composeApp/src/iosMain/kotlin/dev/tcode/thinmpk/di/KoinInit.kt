@@ -1,7 +1,5 @@
 package dev.tcode.thinmpk.di
 
-import dev.tcode.thinmpk.bridge.ArtworkBridge
-import dev.tcode.thinmpk.bridge.ArtworkBridgeImpl
 import dev.tcode.thinmpk.bridge.SongBridge
 import dev.tcode.thinmpk.repository.ArtworkRepository
 import org.koin.core.context.startKoin
@@ -13,7 +11,6 @@ fun initKoin(songBridge: SongBridge, artworkRepository: ArtworkRepository) {
             module {
                 single<SongBridge> { songBridge }
                 single<ArtworkRepository> { artworkRepository }
-                single<ArtworkBridge> { ArtworkBridgeImpl(get()) }
             }
         )
     }
