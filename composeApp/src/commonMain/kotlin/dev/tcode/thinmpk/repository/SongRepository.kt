@@ -1,8 +1,8 @@
-package dev.tcode.thinmpk.bridge
+package dev.tcode.thinmpk.repository
 
 import dev.tcode.thinmpk.model.SongModel
 
-interface SongBridge {
+interface SongRepository {
     fun findAll(): List<SongModel>
     fun findById(id: String): SongModel?
 }

@@ -2,7 +2,7 @@ package dev.tcode.thinmpk.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dev.tcode.thinmpk.model.SongModel
-import dev.tcode.thinmpk.bridge.SongBridge
+import dev.tcode.thinmpk.repository.SongRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,12 +15,12 @@ data class SongsUiState(
 )
 
 class SongsViewModel : ViewModel(), KoinComponent {
-    private val songBridge: SongBridge by inject()
+    private val songRepository: SongRepository by inject()
     private val _uiState = MutableStateFlow(SongsUiState())
     val uiState: StateFlow<SongsUiState> = _uiState.asStateFlow()
 
     fun load() {
-        val songs = songBridge.findAll()
+        val songs = songRepository.findAll()
 
         _uiState.update { it.copy(songs = songs) }
     }

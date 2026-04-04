@@ -4,7 +4,7 @@ import android.provider.MediaStore
 import dev.tcode.thinmpk.MainApplication
 import dev.tcode.thinmpk.model.SongModel
 
-class SongRepository {
+class SongRepositoryImpl : SongRepository {
     fun findById(id: String): SongModel? {
         val context = MainApplication.appContext
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
