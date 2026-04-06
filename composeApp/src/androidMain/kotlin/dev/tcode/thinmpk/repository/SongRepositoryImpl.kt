@@ -1,88 +1,68 @@
 package dev.tcode.thinmpk.repository
 
 import android.provider.MediaStore
-import dev.tcode.thinmpk.MainApplication
 import dev.tcode.thinmpk.model.SongModel
 
-class SongRepositoryImpl : SongRepository {
-    fun findById(id: String): SongModel? {
-        val context = MainApplication.appContext
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(
-            MediaStore.Audio.Media._ID,
-            MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.ARTIST,
-            MediaStore.Audio.Media.ALBUM_ID,
-            MediaStore.Audio.Media.ALBUM,
-            MediaStore.Audio.Media.DURATION,
-        )
-        val selection = "${MediaStore.Audio.Media._ID} = ?"
-        val selectionArgs = arrayOf(id)
+class SongRepositoryImpl : MediaStoreRepository<SongModel>(
+    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+    arrayOf(
+        MediaStore.Audio.Media._ID,
+        MediaStore.Audio.Media.TITLE,
+        MediaStore.Audio.Media.ARTIST,
+        MediaStore.Audio.Media.ALBUM_ID,
+        MediaStore.Audio.Media.ALBUM,
+        MediaStore.Audio.Media.DURATION,
+    ),
+), SongRepository {
+    override fun findById(id: String): SongModel? {
+        selection = "${MediaStore.Audio.Media._ID} = ?"
+        selectionArgs = arrayOf(id)
+        sortOrder = null
 
-        return context.contentResolver.query(uri, projection, selection, selectionArgs, null)
-            ?.use { cursor ->
-                if (cursor.moveToFirst()) {
-                    val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-                    val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
-                    val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
-                    val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
-                    val albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
-                    val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
-                    SongModel(
-                        id = cursor.getLong(idColumn).toString(),
-                        name = cursor.getString(titleColumn) ?: "",
-                        artistName = cursor.getString(artistColumn) ?: "",
-                        albumId = cursor.getLong(albumIdColumn).toString(),
-                        albumName = cursor.getString(albumColumn) ?: "",
-                        imageId = cursor.getLong(albumIdColumn).toString(),
-                        duration = cursor.getInt(durationColumn),
-                    )
-                } else {
-                    null
-                }
-            }
+        return get()
     }
 
-    fun findAll(): List<SongModel> {
-        val context = MainApplication.appContext
-        val songs = mutableListOf<SongModel>()
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(
-            MediaStore.Audio.Media._ID,
-            MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.ARTIST,
-            MediaStore.Audio.Media.ALBUM_ID,
-            MediaStore.Audio.Media.ALBUM,
-            MediaStore.Audio.Media.DURATION,
+    override fun findAll(): List<SongModel> {
+        selection = "${MediaStore.Audio.Media.IS_MUSIC} = ?"
+        selectionArgs = arrayOf("1")
+        sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
+
+        return getList()
+    }
+
+    override fun fetch(): SongModel {
+        return SongModel(
+            id = getId(),
+            name = getTitle(),
+            artistName = getArtistName(),
+            albumId = getAlbumId(),
+            albumName = getAlbumName(),
+            imageId = getAlbumId(),
+            duration = getDuration(),
         )
-        val selection = "${MediaStore.Audio.Media.IS_MUSIC} = ?"
-        val selectionArgs = arrayOf("1")
-        val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
+    }
 
-        context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
-            ?.use { cursor ->
-                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-                val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
-                val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
-                val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
-                val albumColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
-                val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+    private fun getId(): String {
+        return cursor?.getColumnIndex(MediaStore.Audio.Media._ID)?.let { cursor?.getString(it) } ?: ""
+    }
 
-                while (cursor.moveToNext()) {
-                    songs.add(
-                        SongModel(
-                            id = cursor.getLong(idColumn).toString(),
-                            name = cursor.getString(titleColumn) ?: "",
-                            artistName = cursor.getString(artistColumn) ?: "",
-                            albumId = cursor.getLong(albumIdColumn).toString(),
-                            albumName = cursor.getString(albumColumn) ?: "",
-                            imageId = cursor.getLong(albumIdColumn).toString(),
-                            duration = cursor.getInt(durationColumn),
-                        )
-                    )
-                }
-            }
+    private fun getTitle(): String {
+        return cursor?.getColumnIndex(MediaStore.Audio.Media.TITLE)?.let { cursor?.getString(it) } ?: ""
+    }
 
-        return songs
+    private fun getArtistName(): String {
+        return cursor?.getColumnIndex(MediaStore.Audio.Media.ARTIST)?.let { cursor?.getString(it) } ?: ""
+    }
+
+    private fun getAlbumId(): String {
+        return cursor?.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)?.let { cursor?.getString(it) } ?: ""
+    }
+
+    private fun getAlbumName(): String {
+        return cursor?.getColumnIndex(MediaStore.Audio.Media.ALBUM)?.let { cursor?.getString(it) } ?: ""
+    }
+
+    private fun getDuration(): Int {
+        return cursor?.getColumnIndex(MediaStore.Audio.Media.DURATION)?.let { cursor?.getInt(it) } ?: 0
     }
 }
