@@ -1,9 +1,11 @@
 package dev.tcode.thinmpk.view.component.image
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
@@ -17,13 +19,14 @@ fun ArtworkImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     size: Dp = 50.dp,
+    radius: Dp = 0.dp,
 ) {
     val placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
 
     AsyncImage(
         model = ArtworkModel(id = imageId),
         contentDescription = contentDescription,
-        modifier = modifier.size(size),
+        modifier = modifier.size(size).clip(RoundedCornerShape(radius)),
         contentScale = ContentScale.Crop,
         placeholder = placeholder,
         error = placeholder,
