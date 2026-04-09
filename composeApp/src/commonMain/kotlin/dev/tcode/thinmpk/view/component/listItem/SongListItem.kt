@@ -16,9 +16,9 @@ import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.component.image.ArtworkImage
 
 @Composable
-fun SongListItem(song: SongModel) {
+fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,

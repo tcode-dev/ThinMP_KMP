@@ -1,5 +1,6 @@
 package dev.tcode.thinmpk.view.page
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -42,8 +44,13 @@ fun SongsPage(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            itemsIndexed(uiState.songs) { _, song ->
-                SongListItem(song)
+            itemsIndexed(uiState.songs) { index, song ->
+                SongListItem(song, Modifier.pointerInput(index) {
+                    detectTapGestures(
+                        onLongPress = { println("onLongPress: index=$index, song=${song.name}") },
+                        onTap = { println("onTap: index=$index, song=${song.name}") }
+                    )
+                })
             }
         }
     }
