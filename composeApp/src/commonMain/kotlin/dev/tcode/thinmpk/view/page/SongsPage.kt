@@ -48,7 +48,7 @@ fun SongsPage(
                 SongListItem(song, Modifier.pointerInput(index) {
                     detectTapGestures(
                         onLongPress = { println("onLongPress: index=$index, song=${song.name}") },
-                        onTap = { println("onTap: index=$index, song=${song.name}") }
+                        onTap = { viewModel.start(index) }
                     )
                 })
             }

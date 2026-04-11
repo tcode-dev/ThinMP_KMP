@@ -24,4 +24,8 @@ class SongsViewModel : ViewModel(), KoinComponent {
 
         _uiState.update { it.copy(songs = songs) }
     }
+
+    fun start(index: Int) {
+
+    }
 }
