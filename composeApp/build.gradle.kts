@@ -30,6 +30,8 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
+            implementation(libs.media3.exoplayer)
+            implementation(libs.media3.session)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
