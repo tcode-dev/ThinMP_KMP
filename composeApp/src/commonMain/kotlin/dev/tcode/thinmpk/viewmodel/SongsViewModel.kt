@@ -2,6 +2,7 @@ package dev.tcode.thinmpk.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dev.tcode.thinmpk.model.SongModel
+import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.repository.SongRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +17,7 @@ data class SongsUiState(
 
 class SongsViewModel : ViewModel(), KoinComponent {
     private val songRepository: SongRepository by inject()
+    private val musicPlayer: MusicPlayer by inject()
     private val _uiState = MutableStateFlow(SongsUiState())
     val uiState: StateFlow<SongsUiState> = _uiState.asStateFlow()
 
@@ -26,6 +28,10 @@ class SongsViewModel : ViewModel(), KoinComponent {
     }
 
     fun start(index: Int) {
+        val songs = _uiState.value.songs
 
+        if (songs.isNotEmpty()) {
+            musicPlayer.start(songs, index)
+        }
     }
 }
