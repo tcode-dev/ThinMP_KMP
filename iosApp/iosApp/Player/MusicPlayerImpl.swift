@@ -1,7 +1,7 @@
 import MediaPlayer
 import ComposeApp
 
-class MusicPlayerImpl: MusicPlayer {
+class MusicPlayerImpl: ComposeApp.MusicPlayer {
     private let PREV_SECOND: Double = 3
     private let player: MPMusicPlayerController
     private let playerConfig: PlayerConfig
