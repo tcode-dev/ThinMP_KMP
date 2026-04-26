@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.setSingletonImageLoaderFactory
 import dev.tcode.thinmpk.coil.newImageLoader
+import dev.tcode.thinmpk.view.page.AlbumsPage
 import dev.tcode.thinmpk.view.page.SongsPage
 
 @Composable
@@ -51,11 +52,21 @@ fun App() {
                                 .clickable { navController.navigate("songs") }
                                 .padding(16.dp)
                         )
+                        Text(
+                            text = "Albums",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { navController.navigate("albums") }
+                                .padding(16.dp)
+                        )
                     }
                 }
             }
             composable("songs") {
                 SongsPage()
+            }
+            composable("albums") {
+                AlbumsPage()
             }
         }
     }
