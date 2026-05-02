@@ -6,18 +6,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import dev.tcode.thinmpk.model.AlbumModel
 import dev.tcode.thinmpk.model.ArtworkModel
+import dev.tcode.thinmpk.view.text.PrimaryTextView
+import dev.tcode.thinmpk.view.text.SecondaryTextView
 
 @Composable
 fun AlbumGridItem(album: AlbumModel, modifier: Modifier = Modifier) {
@@ -35,20 +35,13 @@ fun AlbumGridItem(album: AlbumModel, modifier: Modifier = Modifier) {
             placeholder = placeholder,
             error = placeholder,
         )
-        Text(
+        PrimaryTextView(
             text = album.name,
-            style = MaterialTheme.typography.bodyMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
         )
-        Text(
+        SecondaryTextView(
             text = album.artistName,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )

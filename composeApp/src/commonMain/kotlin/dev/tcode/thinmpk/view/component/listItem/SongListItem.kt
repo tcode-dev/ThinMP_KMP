@@ -5,15 +5,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.component.image.ArtworkImage
+import dev.tcode.thinmpk.view.text.PrimaryTextView
+import dev.tcode.thinmpk.view.text.SecondaryTextView
 
 @Composable
 fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
@@ -33,19 +32,8 @@ fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
                 .weight(1f)
                 .padding(start = 12.dp)
         ) {
-            Text(
-                text = song.name,
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                text = song.artistName,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            PrimaryTextView(song.name)
+            SecondaryTextView(song.artistName)
         }
     }
     HorizontalDivider()
