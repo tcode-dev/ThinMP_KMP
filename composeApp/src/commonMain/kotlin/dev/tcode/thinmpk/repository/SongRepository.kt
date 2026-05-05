@@ -5,4 +5,5 @@ import dev.tcode.thinmpk.model.SongModel
 interface SongRepository {
     fun findAll(): List<SongModel>
     fun findById(id: String): SongModel?
+    fun findByAlbumId(albumId: String): List<SongModel>
 }
