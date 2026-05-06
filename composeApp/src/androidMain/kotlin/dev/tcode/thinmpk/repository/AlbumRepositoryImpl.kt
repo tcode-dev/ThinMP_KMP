@@ -19,6 +19,14 @@ class AlbumRepositoryImpl : MediaStoreRepository<AlbumModel>(
         return getList()
     }
 
+    override fun findById(id: String): AlbumModel? {
+        selection = "${MediaStore.Audio.Albums._ID} = ?"
+        selectionArgs = arrayOf(id)
+        sortOrder = null
+
+        return get()
+    }
+
     override fun fetch(): AlbumModel {
         return AlbumModel(
             id = getId(),
