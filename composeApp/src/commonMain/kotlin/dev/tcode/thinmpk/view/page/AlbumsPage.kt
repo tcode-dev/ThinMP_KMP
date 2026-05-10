@@ -1,5 +1,6 @@
 package dev.tcode.thinmpk.view.page
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -17,6 +18,7 @@ import dev.tcode.thinmpk.viewmodel.AlbumsViewModel
 
 @Composable
 fun AlbumsPage(
+    onAlbumClick: (String) -> Unit = {},
     viewModel: AlbumsViewModel = viewModel(factory = viewModelFactory { initializer { AlbumsViewModel() } })
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -31,7 +33,7 @@ fun AlbumsPage(
         modifier = Modifier.fillMaxSize()
     ) {
         itemsIndexed(uiState.albums) { index, album ->
-            AlbumGridItem(album)
+            AlbumGridItem(album, Modifier.clickable { onAlbumClick(album.id) })
         }
     }
 }

@@ -13,11 +13,13 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.savedstate.read
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.setSingletonImageLoaderFactory
 import dev.tcode.thinmpk.coil.newImageLoader
+import dev.tcode.thinmpk.view.page.AlbumDetailPage
 import dev.tcode.thinmpk.view.page.AlbumsPage
 import dev.tcode.thinmpk.view.page.SongsPage
 import dev.tcode.thinmpk.view.text.PlainTextView
@@ -67,7 +69,11 @@ fun App() {
                 SongsPage()
             }
             composable("albums") {
-                AlbumsPage()
+                AlbumsPage(onAlbumClick = { albumId -> navController.navigate("albumDetail/$albumId") })
+            }
+            composable("albumDetail/{albumId}") { backStackEntry ->
+                val albumId = backStackEntry.arguments?.read { getStringOrNull("albumId") } ?: ""
+                AlbumDetailPage(albumId = albumId)
             }
         }
     }
