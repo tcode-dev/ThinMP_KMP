@@ -24,6 +24,7 @@ import coil3.compose.AsyncImage
 import dev.tcode.thinmpk.model.ArtworkModel
 import dev.tcode.thinmpk.view.collapsingTopAppBar.ColumnCollapsingTopAppBar
 import dev.tcode.thinmpk.view.component.listItem.SongListItem
+import dev.tcode.thinmpk.view.text.PrimaryTextView
 import dev.tcode.thinmpk.view.text.SecondaryTextView
 import dev.tcode.thinmpk.viewmodel.AlbumDetailViewModel
 
@@ -56,6 +57,10 @@ fun AlbumDetailPage(
             )
         }
         item {
+            PrimaryTextView(
+                text = uiState.album?.name ?: "",
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            )
             SecondaryTextView(
                 text = uiState.album?.artistName ?: "",
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
