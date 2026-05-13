@@ -22,7 +22,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil3.compose.AsyncImage
 import dev.tcode.thinmpk.model.ArtworkModel
-import dev.tcode.thinmpk.view.collapsingTopAppBar.ColumnCollapsingTopAppBar
+import dev.tcode.thinmpk.view.collapsingTopAppBar.DetailCollapsingTopAppBar
 import dev.tcode.thinmpk.view.component.listItem.SongListItem
 import dev.tcode.thinmpk.view.text.PrimaryTextView
 import dev.tcode.thinmpk.view.text.SecondaryTextView
@@ -39,7 +39,7 @@ fun AlbumDetailPage(
         viewModel.load()
     }
 
-    ColumnCollapsingTopAppBar(uiState.album?.name ?: "") {
+    DetailCollapsingTopAppBar(uiState.album?.name ?: "") {
         item {
             val placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
 
