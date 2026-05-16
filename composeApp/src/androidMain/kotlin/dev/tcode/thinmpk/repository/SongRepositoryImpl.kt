@@ -38,6 +38,14 @@ class SongRepositoryImpl : MediaStoreRepository<SongModel>(
         return getList()
     }
 
+    override fun findByArtistId(artistId: String): List<SongModel> {
+        selection = "${MediaStore.Audio.Media.ARTIST_ID} = ?"
+        selectionArgs = arrayOf(artistId)
+        sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
+
+        return getList()
+    }
+
     override fun fetch(): SongModel {
         return SongModel(
             id = getId(),
