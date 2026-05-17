@@ -24,6 +24,28 @@ class AlbumRepositoryImpl: AlbumRepository {
         }
     }
 
+    func findByArtistId(artistId: String) -> [AlbumModel] {
+        let query = MPMediaQuery.albums()
+        query.addFilterPredicate(
+            MPMediaPropertyPredicate(
+                value: UInt64(artistId) ?? 0,
+                forProperty: MPMediaItemPropertyArtistPersistentID
+            )
+        )
+
+        guard let collections = query.collections else { return [] }
+
+        return collections.compactMap { collection in
+            guard let mediaItem = collection.representativeItem else { return nil }
+            return AlbumModel(
+                id: String(mediaItem.albumPersistentID),
+                name: mediaItem.albumTitle ?? "",
+                artistName: mediaItem.artist ?? "",
+                imageId: String(mediaItem.persistentID)
+            )
+        }
+    }
+
     func findById(id: String) -> AlbumModel? {
         let query = MPMediaQuery.albums()
         query.addFilterPredicate(
