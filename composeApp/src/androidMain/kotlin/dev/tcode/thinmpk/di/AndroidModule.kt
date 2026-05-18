@@ -4,6 +4,8 @@ import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.player.MusicPlayerImpl
 import dev.tcode.thinmpk.repository.AlbumRepository
 import dev.tcode.thinmpk.repository.AlbumRepositoryImpl
+import dev.tcode.thinmpk.repository.ArtistRepository
+import dev.tcode.thinmpk.repository.ArtistRepositoryImpl
 import dev.tcode.thinmpk.repository.SongRepository
 import dev.tcode.thinmpk.repository.SongRepositoryImpl
 import org.koin.dsl.module
@@ -11,5 +13,6 @@ import org.koin.dsl.module
 val androidModule = module {
     single<SongRepository> { SongRepositoryImpl() }
     single<AlbumRepository> { AlbumRepositoryImpl() }
+    single<ArtistRepository> { ArtistRepositoryImpl() }
     single<MusicPlayer> { MusicPlayerImpl(get()) }
 }
