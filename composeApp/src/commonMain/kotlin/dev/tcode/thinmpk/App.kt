@@ -21,6 +21,8 @@ import coil3.compose.setSingletonImageLoaderFactory
 import dev.tcode.thinmpk.coil.newImageLoader
 import dev.tcode.thinmpk.view.page.AlbumDetailPage
 import dev.tcode.thinmpk.view.page.AlbumsPage
+import dev.tcode.thinmpk.view.page.ArtistDetailPage
+import dev.tcode.thinmpk.view.page.ArtistsPage
 import dev.tcode.thinmpk.view.page.SongsPage
 import dev.tcode.thinmpk.view.text.PlainTextView
 import dev.tcode.thinmpk.view.text.PrimaryTextView
@@ -56,6 +58,13 @@ fun App() {
                                 .padding(16.dp)
                         )
                         PrimaryTextView(
+                            text = "Artists",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { navController.navigate("artists") }
+                                .padding(16.dp)
+                        )
+                        PrimaryTextView(
                             text = "Albums",
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -67,6 +76,16 @@ fun App() {
             }
             composable("songs") {
                 SongsPage()
+            }
+            composable("artists") {
+                ArtistsPage(onArtistClick = { artistId -> navController.navigate("artistDetail/$artistId") })
+            }
+            composable("artistDetail/{artistId}") { backStackEntry ->
+                val artistId = backStackEntry.arguments?.read { getStringOrNull("artistId") } ?: ""
+                ArtistDetailPage(
+                    artistId = artistId,
+                    onAlbumClick = { albumId -> navController.navigate("albumDetail/$albumId") },
+                )
             }
             composable("albums") {
                 AlbumsPage(onAlbumClick = { albumId -> navController.navigate("albumDetail/$albumId") })
