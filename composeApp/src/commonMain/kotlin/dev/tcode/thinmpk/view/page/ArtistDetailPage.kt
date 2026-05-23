@@ -1,6 +1,9 @@
 package dev.tcode.thinmpk.view.page
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -71,12 +74,20 @@ fun ArtistDetailPage(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
                 )
             }
-            itemsIndexed(uiState.albums) { _, album ->
-                AlbumGridItem(album, Modifier.pointerInput(album.id) {
-                    detectTapGestures(
-                        onTap = { onAlbumClick?.invoke(album.id) }
-                    )
-                }.padding(horizontal = 16.dp, vertical = 4.dp))
+            itemsIndexed(uiState.albums.chunked(2)) { _, rowAlbums ->
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    rowAlbums.forEach { album ->
+                        AlbumGridItem(
+                            album,
+                            Modifier.weight(1f).clickable { onAlbumClick?.invoke(album.id) }.padding(horizontal = 4.dp)
+                        )
+                    }
+                    if (rowAlbums.size < 2) {
+                        Spacer(Modifier.weight(1f))
+                    }
+                }
             }
         }
         if (uiState.songs.isNotEmpty()) {
