@@ -18,15 +18,16 @@ fun ArtworkImage(
     imageId: String,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    size: Dp = 50.dp,
+    size: Dp? = null,
     radius: Dp = 0.dp,
 ) {
     val placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
+    val sizeModifier = if (size != null) modifier.size(size) else modifier
 
     AsyncImage(
         model = ArtworkModel(id = imageId),
         contentDescription = contentDescription,
-        modifier = modifier.size(size).clip(RoundedCornerShape(radius)),
+        modifier = sizeModifier.clip(RoundedCornerShape(radius)),
         contentScale = ContentScale.Crop,
         placeholder = placeholder,
         error = placeholder,

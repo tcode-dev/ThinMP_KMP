@@ -25,6 +25,7 @@ fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
         ArtworkImage(
             imageId = song.imageId,
             contentDescription = song.albumName,
+            size = 50.dp,
             radius = 4.dp
         )
         Column(
