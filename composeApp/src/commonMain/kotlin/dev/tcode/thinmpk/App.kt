@@ -7,7 +7,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import coil3.compose.setSingletonImageLoaderFactory
 import dev.tcode.thinmpk.coil.newImageLoader
-import dev.tcode.thinmpk.view.page.MainPage
+import dev.tcode.thinmpk.view.nav.AppNavHost
 
 @Composable
 fun App() {
@@ -17,6 +17,6 @@ fun App() {
 
     val colorScheme = if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()
     MaterialTheme(colorScheme = colorScheme) {
-        MainPage()
+        AppNavHost()
     }
 }

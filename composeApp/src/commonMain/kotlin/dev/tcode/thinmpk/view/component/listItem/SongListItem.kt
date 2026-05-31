@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.component.image.ArtworkImage
-import dev.tcode.thinmpk.view.text.PrimaryTextView
-import dev.tcode.thinmpk.view.text.SecondaryTextView
+import dev.tcode.thinmpk.view.text.PrimaryText
+import dev.tcode.thinmpk.view.text.SecondaryText
 
 @Composable
 fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
@@ -33,8 +33,8 @@ fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
                 .weight(1f)
                 .padding(start = 12.dp)
         ) {
-            PrimaryTextView(song.name)
-            SecondaryTextView(song.artistName)
+            PrimaryText(song.name)
+            SecondaryText(song.artistName)
         }
     }
     HorizontalDivider()

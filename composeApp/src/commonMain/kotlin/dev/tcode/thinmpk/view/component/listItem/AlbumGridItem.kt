@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import dev.tcode.thinmpk.model.AlbumModel
 import dev.tcode.thinmpk.model.ArtworkModel
-import dev.tcode.thinmpk.view.text.PrimaryTextView
-import dev.tcode.thinmpk.view.text.SecondaryTextView
+import dev.tcode.thinmpk.view.text.PrimaryText
+import dev.tcode.thinmpk.view.text.SecondaryText
 
 @Composable
 fun AlbumGridItem(album: AlbumModel, modifier: Modifier = Modifier) {
@@ -35,12 +35,12 @@ fun AlbumGridItem(album: AlbumModel, modifier: Modifier = Modifier) {
             placeholder = placeholder,
             error = placeholder,
         )
-        PrimaryTextView(
+        PrimaryText(
             text = album.name,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
         )
-        SecondaryTextView(
+        SecondaryText(
             text = album.artistName,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),

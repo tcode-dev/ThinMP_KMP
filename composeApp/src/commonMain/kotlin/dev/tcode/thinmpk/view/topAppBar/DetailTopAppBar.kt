@@ -1,0 +1,70 @@
+package dev.tcode.thinmpk.view.topAppBar
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import dev.tcode.thinmpk.constant.StyleConstant
+import dev.tcode.thinmpk.view.button.BackButton
+import dev.tcode.thinmpk.view.text.PrimaryTitle
+
+@Composable
+fun DetailTopAppBar(title: String, visible: Boolean, toggle: () -> Unit) {
+    Box {
+        AnimatedVisibility(
+            visible = visible, enter = fadeIn(initialAlpha = 0.3F), exit = fadeOut(targetAlpha = 0.3F)
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(color = MaterialTheme.colorScheme.onBackground)
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .height(StyleConstant.ROW_HEIGHT.dp)
+            ) {}
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .height(StyleConstant.ROW_HEIGHT.dp)
+                .padding(start = StyleConstant.PADDING_TINY.dp, end = StyleConstant.PADDING_TINY.dp)
+                // クリック時に下の要素が反応しないように空のclickableを設定
+                .clickable {}, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            BackButton()
+            if (visible) {
+                PrimaryTitle(title)
+            }
+            Box(contentAlignment = Alignment.Center, modifier = Modifier
+                .size(StyleConstant.BUTTON_SIZE.dp)
+                .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
+                .clickable { toggle() }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(StyleConstant.ICON_SIZE.dp)
+                )
+            }
+        }
+    }
+}

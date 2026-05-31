@@ -15,7 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.collapsingTopAppBar.ColumnCollapsingTopAppBar
-import dev.tcode.thinmpk.view.text.PrimaryTextView
+import dev.tcode.thinmpk.view.text.PrimaryText
 import dev.tcode.thinmpk.viewmodel.ArtistsViewModel
 
 @Composable
@@ -33,7 +33,7 @@ fun ArtistsPage(
         title = "Artists",
     ) {
         itemsIndexed(uiState.artists) { _, artist ->
-            PrimaryTextView(
+            PrimaryText(
                 text = artist.name,
                 modifier = Modifier
                     .fillMaxWidth()

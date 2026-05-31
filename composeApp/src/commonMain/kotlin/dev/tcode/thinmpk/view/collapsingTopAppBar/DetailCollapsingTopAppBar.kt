@@ -1,39 +1,95 @@
 package dev.tcode.thinmpk.view.collapsingTopAppBar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-
-private val TOP_APP_BAR_HEIGHT = 48.dp
+import dev.tcode.thinmpk.constant.StyleConstant
+import dev.tcode.thinmpk.view.topAppBar.DetailTopAppBar
+import dev.tcode.thinmpk.view.util.EmptyMiniPlayer
+import dev.tcode.thinmpk.view.util.isHeightExpanded
+import dev.tcode.thinmpk.view.util.isHeightMedium
+import dev.tcode.thinmpk.view.util.isLandscape
+import dev.tcode.thinmpk.view.util.minSize
 
 @Composable
-fun DetailCollapsingTopAppBar(title: String, content: LazyListScope.() -> Unit) {
-    val lazyListState = rememberLazyListState()
-    val index = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
+fun DetailCollapsingTopAppBar(title: String, columns: GridCells, spanCount: Int, dropdownMenus: @Composable ColumnScope.(callback: () -> Unit) -> Unit, content: LazyGridScope.() -> Unit) {
+    val lazyGridState = rememberLazyGridState()
+    val index = remember { derivedStateOf { lazyGridState.firstVisibleItemIndex } }
+    val scrollOffset = remember { derivedStateOf { lazyGridState.firstVisibleItemScrollOffset } }
 
     Box(Modifier.zIndex(1F)) {
-        PlainTopAppBar(title, visible = index.value > 0)
-    }
-    LazyColumn(state = lazyListState) {
-        item {
-            Spacer(
-                Modifier
-                    .windowInsetsPadding(WindowInsets.statusBars)
-                    .height(TOP_APP_BAR_HEIGHT)
-            )
+        val expanded = remember { mutableStateOf(false) }
+        val callback = { expanded.value = !expanded.value }
+
+        DetailTopAppBar(title, visible = visibleTopAppBar(index.value, scrollOffset.value), callback)
+        DropdownMenu(expanded = expanded.value, offset = DpOffset((-1).dp, 0.dp), modifier = Modifier.background(MaterialTheme.colorScheme.onBackground), onDismissRequest = callback) {
+            dropdownMenus(callback)
         }
-        content()
     }
+    LazyVerticalGrid(columns = columns, state = lazyGridState) {
+        content()
+        item(span = { GridItemSpan(spanCount) }) {
+            EmptyMiniPlayer()
+        }
+    }
+}
+
+data class DetailSize(
+    val size: Dp,
+    val gradientHeight: Dp,
+    val primaryTitlePosition: Dp,
+    val secondaryTitlePosition: Dp,
+)
+
+@Composable
+fun detailSize(): DetailSize {
+    return DetailSize(minSize(), gradientHeight(), primaryTitlePosition(), secondaryTitlePosition())
+}
+
+@Composable
+private fun gradientHeight(): Dp {
+    return minSize() / 2
+}
+
+@Composable
+private fun primaryTitlePosition(): Dp {
+    val rate = if (isLandscape() && isHeightMedium() || isHeightExpanded()) 80 else 70
+
+    return (minSize() / 100) * rate
+}
+
+@Composable
+private fun secondaryTitlePosition(): Dp {
+    return primaryTitlePosition() + StyleConstant.ROW_HEIGHT.dp - StyleConstant.PADDING_SMALL.dp
+}
+
+@Composable
+private fun visibleTopAppBar(index: Int, scrollOffset: Int): Boolean {
+    if (index > 0) return true
+
+    val target = primaryTitlePosition() - WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
+    val density = LocalDensity.current.density
+    val offset = (scrollOffset / density)
+
+    return offset.dp > target
 }

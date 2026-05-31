@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -25,27 +26,44 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil3.compose.AsyncImage
 import dev.tcode.thinmpk.model.ArtworkModel
+import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.collapsingTopAppBar.DetailCollapsingTopAppBar
 import dev.tcode.thinmpk.view.component.listItem.AlbumGridItem
+import dev.tcode.thinmpk.view.component.listItem.GridItem
 import dev.tcode.thinmpk.view.component.listItem.SongListItem
-import dev.tcode.thinmpk.view.text.PlainTextView
-import dev.tcode.thinmpk.view.text.PrimaryTextView
+import dev.tcode.thinmpk.view.nav.LocalNavigator
+import dev.tcode.thinmpk.view.text.PlainText
+import dev.tcode.thinmpk.view.text.PrimaryText
+import dev.tcode.thinmpk.view.util.CustomGridCellsFixed
+import dev.tcode.thinmpk.view.util.gridSpanCount
 import dev.tcode.thinmpk.viewmodel.ArtistDetailViewModel
 
 @Composable
 fun ArtistDetailPage(
-    artistId: String,
-    onAlbumClick: ((String) -> Unit)? = null,
-    viewModel: ArtistDetailViewModel = viewModel(factory = viewModelFactory { initializer { ArtistDetailViewModel(artistId) } })
+    id: String,
+    viewModel: ArtistDetailViewModel = viewModel(factory = viewModelFactory {
+        initializer {
+            ArtistDetailViewModel(
+                id
+            )
+        }
+    })
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val navigator = LocalNavigator.current
+    val spanCount: Int = gridSpanCount()
 
     LaunchedEffect(Unit) {
         viewModel.load()
     }
-
-    DetailCollapsingTopAppBar(uiState.artist?.name ?: "") {
-        item {
+    DetailCollapsingTopAppBar(
+        title = uiState.artist?.name ?: "",
+        columns = CustomGridCellsFixed(spanCount),
+        spanCount = spanCount,
+        dropdownMenus = { callback ->
+        }
+    ) {
+        item(span = { GridItemSpan(spanCount) }) {
             val placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
 
             AsyncImage(
@@ -61,43 +79,35 @@ fun ArtistDetailPage(
                 error = placeholder,
             )
         }
-        item {
-            PrimaryTextView(
+        item(span = { GridItemSpan(spanCount) }) {
+            PrimaryText(
                 text = uiState.artist?.name ?: "",
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
             )
         }
         if (uiState.albums.isNotEmpty()) {
-            item {
-                PlainTextView(
+            item(span = { GridItemSpan(spanCount) }) {
+                PlainText(
                     text = "Albums",
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
                 )
             }
-            itemsIndexed(uiState.albums.chunked(2)) { _, rowAlbums ->
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    rowAlbums.forEach { album ->
-                        AlbumGridItem(
-                            album,
-                            Modifier.weight(1f).clickable { onAlbumClick?.invoke(album.id) }.padding(horizontal = 4.dp)
-                        )
-                    }
-                    if (rowAlbums.size < 2) {
-                        Spacer(Modifier.weight(1f))
-                    }
+            itemsIndexed(items = uiState.albums) { index, album ->
+                GridItem(index, spanCount) {
+                    AlbumGridItem(album,  Modifier.clickable { navigator.albumDetail(album.id) })
                 }
             }
         }
         if (uiState.songs.isNotEmpty()) {
-            item {
-                PlainTextView(
+            item(span = { GridItemSpan(spanCount) }) {
+                PlainText(
                     text = "Songs",
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
                 )
             }
-            itemsIndexed(uiState.songs) { index, song ->
+            itemsIndexed(
+                uiState.songs,
+                span = { _: Int, _: SongModel -> GridItemSpan(spanCount) }) { index, song ->
                 SongListItem(song, Modifier.pointerInput(index) {
                     detectTapGestures(
                         onTap = { viewModel.start(index) }

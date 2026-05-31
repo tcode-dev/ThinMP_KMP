@@ -1,65 +1,126 @@
 package dev.tcode.thinmpk.view.page
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.offset
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import coil3.compose.AsyncImage
+import dev.tcode.thinmpk.constant.StyleConstant
+import dev.tcode.thinmpk.model.ArtworkModel
+import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.collapsingTopAppBar.DetailCollapsingTopAppBar
-import dev.tcode.thinmpk.view.component.image.ArtworkImage
+import dev.tcode.thinmpk.view.collapsingTopAppBar.detailSize
 import dev.tcode.thinmpk.view.component.listItem.SongListItem
-import dev.tcode.thinmpk.view.text.PrimaryTextView
-import dev.tcode.thinmpk.view.text.SecondaryTextView
+import dev.tcode.thinmpk.view.text.PrimaryTitle
+import dev.tcode.thinmpk.view.text.SecondaryTitle
+import dev.tcode.thinmpk.view.util.CustomGridCellsFixed
+import dev.tcode.thinmpk.view.util.gridSpanCount
 import dev.tcode.thinmpk.viewmodel.AlbumDetailViewModel
 
 @Composable
 fun AlbumDetailPage(
-    albumId: String,
-    viewModel: AlbumDetailViewModel = viewModel(factory = viewModelFactory { initializer { AlbumDetailViewModel(albumId) } })
+    id: String,
+    viewModel: AlbumDetailViewModel = viewModel(factory = viewModelFactory {
+        initializer {
+            AlbumDetailViewModel(id)
+        }
+    })
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val spanCount: Int = gridSpanCount()
+    val (size, gradientHeight, primaryTitlePosition, secondaryTitlePosition) = detailSize()
 
     LaunchedEffect(Unit) {
         viewModel.load()
     }
 
-    DetailCollapsingTopAppBar(uiState.album?.name ?: "") {
-        item {
-            ArtworkImage(
-                imageId = uiState.album?.imageId ?: "",
-                contentDescription = uiState.album?.name,
-                modifier = Modifier
+//    CommonLayoutView(uiState.isVisiblePlayer) { showPlaylistRegisterPopup ->
+    DetailCollapsingTopAppBar(
+        title = uiState.album?.name ?: "",
+        columns = CustomGridCellsFixed(spanCount),
+        spanCount = spanCount,
+        dropdownMenus = { callback ->
+        }
+    ) {
+        item(span = { GridItemSpan(spanCount) }) {
+            val placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
+
+            Box(
+                Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 40.dp)
-                    .aspectRatio(1f)
-            )
+                    .height(size)
+            ) {
+                AsyncImage(
+                    model = ArtworkModel(id = uiState.album?.imageId ?: ""),
+                    contentDescription = uiState.album?.name,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop,
+                    placeholder = placeholder,
+                    error = placeholder,
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(gradientHeight)
+                        .align(Alignment.BottomCenter)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                0.0f to MaterialTheme.colorScheme.background.copy(alpha = 0F),
+                                1.0F to MaterialTheme.colorScheme.background,
+                            )
+                        ),
+                ) {}
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(StyleConstant.ROW_HEIGHT.dp)
+                        .offset(y = primaryTitlePosition),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    PrimaryTitle(uiState.album?.name ?: "")
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(25.dp)
+                        .offset(y = secondaryTitlePosition),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    SecondaryTitle(uiState.album?.artistName ?: "")
+                }
+            }
         }
-        item {
-            PrimaryTextView(
-                text = uiState.album?.name ?: "",
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-            )
-            SecondaryTextView(
-                text = uiState.album?.artistName ?: "",
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-            )
-        }
-        itemsIndexed(uiState.songs) { index, song ->
+        itemsIndexed(uiState.songs, span = { _: Int, _: SongModel -> GridItemSpan(spanCount) }) { index, song ->
             SongListItem(song, Modifier.pointerInput(index) {
                 detectTapGestures(
+                    onLongPress = { println("onLongPress: index=$index, song=${song.name}") },
                     onTap = { viewModel.start(index) }
                 )
             })
         }
     }
+//    }
 }
