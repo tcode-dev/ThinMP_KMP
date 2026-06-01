@@ -17,17 +17,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.offset
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import coil3.compose.AsyncImage
+import dev.tcode.thinmpk.view.component.image.ArtworkImage
 import dev.tcode.thinmpk.constant.StyleConstant
-import dev.tcode.thinmpk.model.ArtworkModel
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.collapsingTopAppBar.DetailCollapsingTopAppBar
 import dev.tcode.thinmpk.view.collapsingTopAppBar.detailSize
@@ -64,20 +61,15 @@ fun AlbumDetailPage(
         }
     ) {
         item(span = { GridItemSpan(spanCount) }) {
-            val placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
-
             Box(
                 Modifier
                     .fillMaxWidth()
                     .height(size)
             ) {
-                AsyncImage(
-                    model = ArtworkModel(id = uiState.album?.imageId ?: ""),
+                ArtworkImage(
+                    imageId = uiState.album?.imageId ?: "",
                     contentDescription = uiState.album?.name,
                     modifier = Modifier.fillMaxWidth(),
-                    contentScale = ContentScale.Crop,
-                    placeholder = placeholder,
-                    error = placeholder,
                 )
                 Box(
                     modifier = Modifier

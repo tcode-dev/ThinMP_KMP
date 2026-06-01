@@ -14,11 +14,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import thinmpk.composeapp.generated.resources.Res
 
 data class ArtistDetailUiState(
     val artist: ArtistModel? = null,
     val albums: List<AlbumModel> = emptyList(),
     val songs: List<SongModel> = emptyList(),
+    val imageId: String? = null,
 )
 
 class ArtistDetailViewModel(private val artistId: String) : ViewModel(), KoinComponent {
@@ -33,8 +35,9 @@ class ArtistDetailViewModel(private val artistId: String) : ViewModel(), KoinCom
         val artist = artistRepository.findById(artistId)
         val albums = albumRepository.findByArtistId(artistId)
         val songs = songRepository.findByArtistId(artistId)
+        val imageId = albums.first().imageId
 
-        _uiState.update { it.copy(artist = artist, albums = albums, songs = songs) }
+        _uiState.update { it.copy(artist = artist, albums = albums, songs = songs, imageId = imageId) }
     }
 
     fun start(index: Int) {
