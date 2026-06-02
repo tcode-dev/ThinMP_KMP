@@ -18,16 +18,10 @@ fun AppNavHost() {
     val navController = rememberNavController()
 
     CompositionLocalProvider(LocalNavigator provides Navigator(navController)) {
-        val navigator = LocalNavigator.current
-
         NavHost(navController = navController, startDestination = MainRoute) {
             composable<MainRoute> { MainPage() }
-            composable<ArtistsRoute> {
-                ArtistsPage(onArtistClick = { artistId -> navigator.artistDetail(artistId) })
-            }
-            composable<AlbumsRoute> {
-                AlbumsPage(onAlbumClick = { albumId -> navigator.albumDetail(albumId) })
-            }
+            composable<ArtistsRoute> { ArtistsPage() }
+            composable<AlbumsRoute> { AlbumsPage() }
             composable<SongsRoute> { SongsPage() }
             composable<AlbumDetailRoute> { backStackEntry ->
                 val route = backStackEntry.toRoute<AlbumDetailRoute>()

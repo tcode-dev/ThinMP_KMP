@@ -15,14 +15,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.collapsingTopAppBar.ColumnCollapsingTopAppBar
+import dev.tcode.thinmpk.view.nav.LocalNavigator
 import dev.tcode.thinmpk.view.text.PrimaryText
 import dev.tcode.thinmpk.viewmodel.ArtistsViewModel
 
 @Composable
 fun ArtistsPage(
-    onArtistClick: (String) -> Unit = {},
     viewModel: ArtistsViewModel = viewModel(factory = viewModelFactory { initializer { ArtistsViewModel() } })
 ) {
+    val navigator = LocalNavigator.current
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -37,7 +38,7 @@ fun ArtistsPage(
                 text = artist.name,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onArtistClick(artist.id) }
+                    .clickable { navigator.artistDetail(artist.id) }
                     .padding(16.dp),
             )
         }

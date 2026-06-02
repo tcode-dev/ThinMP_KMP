@@ -14,13 +14,14 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.collapsingTopAppBar.GridCollapsingTopAppBar
 import dev.tcode.thinmpk.view.component.listItem.AlbumGridItem
+import dev.tcode.thinmpk.view.nav.LocalNavigator
 import dev.tcode.thinmpk.viewmodel.AlbumsViewModel
 
 @Composable
 fun AlbumsPage(
-    onAlbumClick: (String) -> Unit = {},
     viewModel: AlbumsViewModel = viewModel(factory = viewModelFactory { initializer { AlbumsViewModel() } })
 ) {
+    val navigator = LocalNavigator.current
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -33,7 +34,7 @@ fun AlbumsPage(
         modifier = Modifier.fillMaxSize()
     ) {
         itemsIndexed(uiState.albums) { index, album ->
-            AlbumGridItem(album, Modifier.clickable { onAlbumClick(album.id) })
+            AlbumGridItem(album, Modifier.clickable { navigator.albumDetail(album.id) })
         }
     }
 }
