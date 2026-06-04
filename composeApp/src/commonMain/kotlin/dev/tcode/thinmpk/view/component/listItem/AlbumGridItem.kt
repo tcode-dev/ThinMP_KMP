@@ -3,7 +3,6 @@ package dev.tcode.thinmpk.view.component.listItem
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -11,13 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import dev.tcode.thinmpk.model.AlbumModel
 import dev.tcode.thinmpk.model.ArtworkModel
-import dev.tcode.thinmpk.view.text.PrimaryText
-import dev.tcode.thinmpk.view.text.SecondaryText
+import dev.tcode.thinmpk.view.text.PrimaryGridText
+import dev.tcode.thinmpk.view.text.SecondaryGridText
 
 @Composable
 fun AlbumGridItem(album: AlbumModel, modifier: Modifier = Modifier) {
@@ -35,15 +33,7 @@ fun AlbumGridItem(album: AlbumModel, modifier: Modifier = Modifier) {
             placeholder = placeholder,
             error = placeholder,
         )
-        PrimaryText(
-            text = album.name,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
-        )
-        SecondaryText(
-            text = album.artistName,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        PrimaryGridText(text = album.name)
+        SecondaryGridText(text = album.artistName)
     }
 }

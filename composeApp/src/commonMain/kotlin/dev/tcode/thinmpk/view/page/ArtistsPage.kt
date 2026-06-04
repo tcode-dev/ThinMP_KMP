@@ -16,7 +16,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.collapsingTopAppBar.ColumnCollapsingTopAppBar
 import dev.tcode.thinmpk.view.nav.LocalNavigator
-import dev.tcode.thinmpk.view.text.PrimaryText
+import androidx.compose.material3.MaterialTheme
+import dev.tcode.thinmpk.view.text.PlainText
 import dev.tcode.thinmpk.viewmodel.ArtistsViewModel
 
 @Composable
@@ -34,8 +35,9 @@ fun ArtistsPage(
         title = "Artists",
     ) {
         itemsIndexed(uiState.artists) { _, artist ->
-            PrimaryText(
+            PlainText(
                 text = artist.name,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { navigator.artistDetail(artist.id) }

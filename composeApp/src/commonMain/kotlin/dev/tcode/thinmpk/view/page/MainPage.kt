@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.tcode.thinmpk.view.nav.LocalNavigator
+import androidx.compose.material3.MaterialTheme
 import dev.tcode.thinmpk.view.text.PlainText
-import dev.tcode.thinmpk.view.text.PrimaryText
 
 @Composable
 fun MainPage() {
@@ -31,22 +31,25 @@ fun MainPage() {
                     .fillMaxWidth()
                     .padding(32.dp)
             )
-            PrimaryText(
+            PlainText(
                 text = "Songs",
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { navigator.songs() }
                     .padding(16.dp)
             )
-            PrimaryText(
+            PlainText(
                 text = "Artists",
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { navigator.artists() }
                     .padding(16.dp)
             )
-            PrimaryText(
+            PlainText(
                 text = "Albums",
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { navigator.albums() }
