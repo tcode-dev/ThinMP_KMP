@@ -13,7 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.collapsingTopAppBar.GridCollapsingTopAppBar
-import dev.tcode.thinmpk.view.component.listItem.AlbumGridItem
+import dev.tcode.thinmpk.view.listItem.AlbumGridItem
 import dev.tcode.thinmpk.view.nav.LocalNavigator
 import dev.tcode.thinmpk.viewmodel.AlbumsViewModel
 

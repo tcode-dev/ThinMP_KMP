@@ -12,7 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.collapsingTopAppBar.ColumnCollapsingTopAppBar
-import dev.tcode.thinmpk.view.component.listItem.SongListItem
+import dev.tcode.thinmpk.view.listItem.SongListItem
 import dev.tcode.thinmpk.viewmodel.SongsViewModel
 
 @Composable

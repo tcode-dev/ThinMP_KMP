@@ -1,4 +1,4 @@
-package dev.tcode.thinmpk.view.component.listItem
+package dev.tcode.thinmpk.view.listItem
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.tcode.thinmpk.model.SongModel
-import dev.tcode.thinmpk.view.component.image.ArtworkImage
+import dev.tcode.thinmpk.view.image.ArtworkImage
 import dev.tcode.thinmpk.view.text.PrimaryText
 import dev.tcode.thinmpk.view.text.SecondaryText
 

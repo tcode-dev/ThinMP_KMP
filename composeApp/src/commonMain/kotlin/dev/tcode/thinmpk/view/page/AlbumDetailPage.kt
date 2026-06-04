@@ -23,12 +23,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import dev.tcode.thinmpk.view.component.image.ArtworkImage
+import dev.tcode.thinmpk.view.image.ArtworkImage
 import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.collapsingTopAppBar.DetailCollapsingTopAppBar
 import dev.tcode.thinmpk.view.collapsingTopAppBar.detailSize
-import dev.tcode.thinmpk.view.component.listItem.SongListItem
+import dev.tcode.thinmpk.view.listItem.SongListItem
 import dev.tcode.thinmpk.view.text.PrimaryTitle
 import dev.tcode.thinmpk.view.text.SecondaryTitle
 import dev.tcode.thinmpk.view.util.CustomGridCellsFixed

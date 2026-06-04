@@ -1,4 +1,4 @@
-package dev.tcode.thinmpk.view.component.image
+package dev.tcode.thinmpk.view.image
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
