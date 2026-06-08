@@ -19,13 +19,13 @@ fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(5.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ArtworkImage(
             imageId = song.imageId,
             contentDescription = song.albumName,
-            size = 50.dp,
+            size = 40.dp,
             radius = 4.dp
         )
         Column(
