@@ -35,7 +35,7 @@ fun DetailTopAppBar(title: String, visible: Boolean, toggle: () -> Unit) {
         ) {
             Box(
                 modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.onBackground)
+                    .background(color = MaterialTheme.colorScheme.surface)
                     .fillMaxWidth()
                     .statusBarsPadding()
                     .height(StyleConstant.ROW_HEIGHT.dp)
