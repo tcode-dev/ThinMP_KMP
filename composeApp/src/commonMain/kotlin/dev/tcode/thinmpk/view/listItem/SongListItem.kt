@@ -16,26 +16,28 @@ import dev.tcode.thinmpk.view.text.SecondaryText
 
 @Composable
 fun SongListItem(song: SongModel, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(5.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        ArtworkImage(
-            imageId = song.imageId,
-            contentDescription = song.albumName,
-            size = 40.dp,
-            radius = 4.dp
-        )
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 12.dp)
+    Column {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            PrimaryText(song.name)
-            SecondaryText(song.artistName)
+            ArtworkImage(
+                imageId = song.imageId,
+                contentDescription = song.albumName,
+                size = 40.dp,
+                radius = 4.dp
+            )
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 12.dp)
+            ) {
+                PrimaryText(song.name)
+                SecondaryText(song.artistName)
+            }
         }
+        HorizontalDivider()
     }
-    HorizontalDivider()
 }
