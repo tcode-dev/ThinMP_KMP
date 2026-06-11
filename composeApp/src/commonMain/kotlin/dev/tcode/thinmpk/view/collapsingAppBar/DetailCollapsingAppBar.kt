@@ -1,4 +1,4 @@
-package dev.tcode.thinmpk.view.collapsingTopAppBar
+package dev.tcode.thinmpk.view.collapsingAppBar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,15 +24,15 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import dev.tcode.thinmpk.constant.StyleConstant
-import dev.tcode.thinmpk.view.topAppBar.DetailTopAppBar
 import dev.tcode.thinmpk.view.util.EmptyMiniPlayer
 import dev.tcode.thinmpk.view.util.isHeightExpanded
 import dev.tcode.thinmpk.view.util.isHeightMedium
 import dev.tcode.thinmpk.view.util.isLandscape
+import dev.tcode.thinmpk.view.topAppBar.DetailTopAppBar
 import dev.tcode.thinmpk.view.util.minSize
 
 @Composable
-fun DetailCollapsingTopAppBar(title: String, columns: GridCells, spanCount: Int, dropdownMenus: @Composable ColumnScope.(callback: () -> Unit) -> Unit, content: LazyGridScope.() -> Unit) {
+fun DetailCollapsingAppBar(title: String, columns: GridCells, spanCount: Int, dropdownMenus: @Composable ColumnScope.(callback: () -> Unit) -> Unit, content: LazyGridScope.() -> Unit) {
     val lazyGridState = rememberLazyGridState()
     val index = remember { derivedStateOf { lazyGridState.firstVisibleItemIndex } }
     val scrollOffset = remember { derivedStateOf { lazyGridState.firstVisibleItemScrollOffset } }

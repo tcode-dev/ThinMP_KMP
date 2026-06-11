@@ -11,7 +11,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import dev.tcode.thinmpk.view.collapsingTopAppBar.ColumnCollapsingTopAppBar
+import dev.tcode.thinmpk.view.collapsingAppBar.ListCollapsingAppBar
 import dev.tcode.thinmpk.view.listItem.SongListItem
 import dev.tcode.thinmpk.viewmodel.SongsViewModel
 
@@ -25,7 +25,7 @@ fun SongsPage(
         viewModel.load()
     }
 
-    ColumnCollapsingTopAppBar("Songs") {
+    ListCollapsingAppBar("Songs") {
         itemsIndexed(uiState.songs) { index, song ->
             SongListItem(song, Modifier.pointerInput(index) {
                 detectTapGestures(

@@ -26,8 +26,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.image.ArtworkImage
 import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.model.SongModel
-import dev.tcode.thinmpk.view.collapsingTopAppBar.DetailCollapsingTopAppBar
-import dev.tcode.thinmpk.view.collapsingTopAppBar.detailSize
+import dev.tcode.thinmpk.view.collapsingAppBar.DetailCollapsingAppBar
+import dev.tcode.thinmpk.view.collapsingAppBar.detailSize
 import dev.tcode.thinmpk.view.listItem.SongListItem
 import dev.tcode.thinmpk.view.text.PrimaryTitle
 import dev.tcode.thinmpk.view.text.SecondaryTitle
@@ -53,7 +53,7 @@ fun AlbumDetailPage(
     }
 
 //    CommonLayoutView(uiState.isVisiblePlayer) { showPlaylistRegisterPopup ->
-    DetailCollapsingTopAppBar(
+    DetailCollapsingAppBar(
         title = uiState.album?.name ?: "",
         columns = CustomGridCellsFixed(spanCount),
         spanCount = spanCount,

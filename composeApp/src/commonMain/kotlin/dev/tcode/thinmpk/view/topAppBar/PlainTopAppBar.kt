@@ -1,4 +1,4 @@
-package dev.tcode.thinmpk.view.collapsingTopAppBar
+package dev.tcode.thinmpk.view.topAppBar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

@@ -1,4 +1,4 @@
-package dev.tcode.thinmpk.view.collapsingTopAppBar
+package dev.tcode.thinmpk.view.collapsingAppBar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -17,11 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import dev.tcode.thinmpk.view.topAppBar.PlainTopAppBar
 
 private val TOP_APP_BAR_HEIGHT = 48.dp
 
 @Composable
-fun GridCollapsingTopAppBar(
+fun GridCollapsingAppBar(
     title: String,
     columns: GridCells,
     modifier: Modifier = Modifier,

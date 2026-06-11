@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import dev.tcode.thinmpk.view.collapsingTopAppBar.GridCollapsingTopAppBar
+import dev.tcode.thinmpk.view.collapsingAppBar.GridCollapsingAppBar
 import dev.tcode.thinmpk.view.listItem.AlbumGridItem
 import dev.tcode.thinmpk.view.nav.LocalNavigator
 import dev.tcode.thinmpk.viewmodel.AlbumsViewModel
@@ -28,7 +28,7 @@ fun AlbumsPage(
         viewModel.load()
     }
 
-    GridCollapsingTopAppBar(
+    GridCollapsingAppBar(
         title = "Albums",
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize()
