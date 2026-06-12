@@ -17,9 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.view.topAppBar.PlainTopAppBar
-
-private val TOP_APP_BAR_HEIGHT = 48.dp
 
 @Composable
 fun GridCollapsingAppBar(
@@ -43,7 +42,7 @@ fun GridCollapsingAppBar(
             Spacer(
                 Modifier
                     .windowInsetsPadding(WindowInsets.statusBars)
-                    .height(TOP_APP_BAR_HEIGHT)
+                    .height(StyleConstant.ROW_HEIGHT.dp)
             )
         }
         content()

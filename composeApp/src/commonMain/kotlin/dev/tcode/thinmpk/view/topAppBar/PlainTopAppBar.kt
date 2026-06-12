@@ -18,8 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-
-private val TOP_APP_BAR_HEIGHT = 48.dp
+import dev.tcode.thinmpk.constant.StyleConstant
 
 @Composable
 fun PlainTopAppBar(title: String, visible: Boolean) {
@@ -32,14 +31,14 @@ fun PlainTopAppBar(title: String, visible: Boolean) {
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.surface)
                     .windowInsetsPadding(WindowInsets.statusBars)
-                    .height(TOP_APP_BAR_HEIGHT)
+                    .height(StyleConstant.ROW_HEIGHT.dp)
             )
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .windowInsetsPadding(WindowInsets.statusBars)
-                .height(TOP_APP_BAR_HEIGHT),
+                .height(StyleConstant.ROW_HEIGHT.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
