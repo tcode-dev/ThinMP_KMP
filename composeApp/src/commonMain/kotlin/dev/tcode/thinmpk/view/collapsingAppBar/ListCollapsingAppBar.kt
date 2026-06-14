@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.view.topAppBar.PlainTopAppBar
+import dev.tcode.thinmpk.view.util.EmptyMiniPlayer
 
 @Composable
 fun ListCollapsingAppBar(title: String, content: LazyListScope.() -> Unit) {
@@ -35,5 +36,8 @@ fun ListCollapsingAppBar(title: String, content: LazyListScope.() -> Unit) {
             )
         }
         content()
+        item {
+            EmptyMiniPlayer()
+        }
     }
 }

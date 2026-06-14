@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -44,15 +45,11 @@ fun MiniPlayer(
 
     Row(
         modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.onBackground)
+            .background(color = MaterialTheme.colorScheme.surface)
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(
-                start = StyleConstant.PADDING_LARGE.dp,
-                top = StyleConstant.PADDING_TINY.dp,
-                end = StyleConstant.PADDING_LARGE.dp,
-                bottom = StyleConstant.PADDING_TINY.dp
-            )
+            .height(StyleConstant.ROW_HEIGHT.dp)
+            .padding(StyleConstant.PADDING_TINY.dp)
             .clickable {
 //                navigator.player()
             },
@@ -79,7 +76,7 @@ fun MiniPlayer(
             Icon(
                 imageVector = if (uiState.isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(StyleConstant.IMAGE_SIZE.dp)
             )
         }
@@ -91,7 +88,7 @@ fun MiniPlayer(
             Icon(
                 imageVector = Icons.Rounded.SkipNext,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(StyleConstant.IMAGE_SIZE.dp)
             )
         }

@@ -2,6 +2,7 @@ package dev.tcode.thinmpk.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dev.tcode.thinmpk.player.MusicPlayer
+import dev.tcode.thinmpk.player.MusicPlayerListener
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,9 +17,22 @@ data class MiniPlayerUiState(
 
 class MiniPlayerViewModel : ViewModel(), KoinComponent {
     private val musicPlayer: MusicPlayer by inject()
-//    private var initialized: Boolean = false
     private val _uiState = MutableStateFlow(MiniPlayerUiState())
     val uiState: StateFlow<MiniPlayerUiState> = _uiState.asStateFlow()
+
+    private val listener = object : MusicPlayerListener {
+        override fun onChange() {
+            updateState()
+        }
+
+        override fun onError() {
+            _uiState.update { it.copy(isVisible = false) }
+        }
+    }
+
+    init {
+        musicPlayer.addEventListener(listener)
+    }
 
     fun toggle() {
         if (musicPlayer.isPlaying()) {
@@ -26,31 +40,25 @@ class MiniPlayerViewModel : ViewModel(), KoinComponent {
         } else {
             musicPlayer.play()
         }
+//        updateState()
     }
 
     fun next() {
         musicPlayer.next()
     }
 
-//    override fun onChange() {
-//        update()
-//    }
+    private fun updateState() {
+        val song = musicPlayer.getCurrentSong() ?: return
 
-//    override fun onError() {
-//        _uiState.update { currentState ->
-//            currentState.copy(
-//                isVisible = false
-//            )
-//        }
-//    }
+        _uiState.update {
+            it.copy(
+                primaryText = song.name, imageId = song.imageId, isVisible = true, isPlaying = musicPlayer.isPlaying()
+            )
+        }
+    }
 
-//    private fun update() {
-//        val song = musicPlayer.getCurrentSong() ?: return
-//
-//        _uiState.update { currentState ->
-//            currentState.copy(
-//                primaryText = song.name, imageId = song.imageId, isVisible = true, isPlaying = musicPlayer.isPlaying()
-//            )
-//        }
-//    }
+    override fun onCleared() {
+        super.onCleared()
+        musicPlayer.removeEventListener(listener)
+    }
 }
