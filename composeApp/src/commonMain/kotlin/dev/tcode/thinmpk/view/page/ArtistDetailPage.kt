@@ -6,8 +6,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,13 +41,11 @@ import dev.tcode.thinmpk.view.listItem.GridItem
 import dev.tcode.thinmpk.view.listItem.SongListItem
 import dev.tcode.thinmpk.view.nav.LocalNavigator
 import dev.tcode.thinmpk.view.text.PlainText
-import dev.tcode.thinmpk.view.text.PrimaryText
 import dev.tcode.thinmpk.view.text.PrimaryTitle
 import dev.tcode.thinmpk.view.text.SecondaryTitle
 import dev.tcode.thinmpk.view.util.CustomGridCellsFixed
 import dev.tcode.thinmpk.view.util.gridSpanCount
 import dev.tcode.thinmpk.viewmodel.ArtistDetailViewModel
-import kotlin.invoke
 
 @Composable
 fun ArtistDetailPage(

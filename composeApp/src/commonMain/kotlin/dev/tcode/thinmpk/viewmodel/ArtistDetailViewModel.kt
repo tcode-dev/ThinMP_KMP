@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import thinmpk.composeapp.generated.resources.Res
 
 data class ArtistDetailUiState(
     val artist: ArtistModel? = null,
