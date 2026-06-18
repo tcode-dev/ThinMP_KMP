@@ -28,6 +28,7 @@ import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.collapsingAppBar.DetailCollapsingAppBar
 import dev.tcode.thinmpk.view.collapsingAppBar.detailSize
+import dev.tcode.thinmpk.view.layout.MiniPlayerLayout
 import dev.tcode.thinmpk.view.listItem.SongListItem
 import dev.tcode.thinmpk.view.text.PrimaryTitle
 import dev.tcode.thinmpk.view.text.SecondaryTitle
@@ -53,65 +54,69 @@ fun AlbumDetailPage(
     }
 
 //    CommonLayoutView(uiState.isVisiblePlayer) { showPlaylistRegisterPopup ->
-    DetailCollapsingAppBar(
-        title = uiState.album?.name ?: "",
-        columns = CustomGridCellsFixed(spanCount),
-        spanCount = spanCount,
-        dropdownMenus = { callback ->
-        }
-    ) {
-        item(span = { GridItemSpan(spanCount) }) {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(size)
-            ) {
-                ArtworkImage(
-                    imageId = uiState.album?.imageId ?: "",
-                    contentDescription = uiState.album?.name,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+    MiniPlayerLayout {
+        DetailCollapsingAppBar(
+            title = uiState.album?.name ?: "",
+            columns = CustomGridCellsFixed(spanCount),
+            spanCount = spanCount,
+            dropdownMenus = { callback ->
+            }
+        ) {
+            item(span = { GridItemSpan(spanCount) }) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(gradientHeight)
-                        .align(Alignment.BottomCenter)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                0.0f to MaterialTheme.colorScheme.background.copy(alpha = 0F),
-                                1.0F to MaterialTheme.colorScheme.background,
-                            )
-                        ),
-                ) {}
-                Row(
                     Modifier
                         .fillMaxWidth()
-                        .height(StyleConstant.ROW_HEIGHT.dp)
-                        .offset(y = primaryTitlePosition),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
+                        .height(size)
                 ) {
-                    PrimaryTitle(uiState.album?.name ?: "")
-                }
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(25.dp)
-                        .offset(y = secondaryTitlePosition),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    SecondaryTitle(uiState.album?.artistName ?: "")
+                    ArtworkImage(
+                        imageId = uiState.album?.imageId ?: "",
+                        contentDescription = uiState.album?.name,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(gradientHeight)
+                            .align(Alignment.BottomCenter)
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    0.0f to MaterialTheme.colorScheme.background.copy(alpha = 0F),
+                                    1.0F to MaterialTheme.colorScheme.background,
+                                )
+                            ),
+                    ) {}
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(StyleConstant.ROW_HEIGHT.dp)
+                            .offset(y = primaryTitlePosition),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        PrimaryTitle(uiState.album?.name ?: "")
+                    }
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(25.dp)
+                            .offset(y = secondaryTitlePosition),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        SecondaryTitle(uiState.album?.artistName ?: "")
+                    }
                 }
             }
-        }
-        itemsIndexed(uiState.songs, span = { _: Int, _: SongModel -> GridItemSpan(spanCount) }) { index, song ->
-            SongListItem(song, Modifier.pointerInput(index) {
-                detectTapGestures(
-                    onLongPress = { println("onLongPress: index=$index, song=${song.name}") },
-                    onTap = { viewModel.start(index) }
-                )
-            })
+            itemsIndexed(
+                uiState.songs,
+                span = { _: Int, _: SongModel -> GridItemSpan(spanCount) }) { index, song ->
+                SongListItem(song, Modifier.pointerInput(index) {
+                    detectTapGestures(
+                        onLongPress = { println("onLongPress: index=$index, song=${song.name}") },
+                        onTap = { viewModel.start(index) }
+                    )
+                })
+            }
         }
     }
 //    }
