@@ -3,6 +3,7 @@ package dev.tcode.thinmpk.viewmodel
 import androidx.lifecycle.ViewModel
 import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.player.MusicPlayerListener
+import dev.tcode.thinmpk.view.util.CustomLifecycleEventObserverListener
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,7 @@ data class MiniPlayerUiState(
     var primaryText: String = "", var imageId: String = "", var isVisible: Boolean = false, var isPlaying: Boolean = false
 )
 
-class MiniPlayerViewModel : ViewModel(), KoinComponent {
+class MiniPlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener, CustomLifecycleEventObserverListener {
     private val musicPlayer: MusicPlayer by inject()
     private val _uiState = MutableStateFlow(MiniPlayerUiState())
     val uiState: StateFlow<MiniPlayerUiState> = _uiState.asStateFlow()

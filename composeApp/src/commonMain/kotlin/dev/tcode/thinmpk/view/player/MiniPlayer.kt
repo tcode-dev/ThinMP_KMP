@@ -30,6 +30,7 @@ import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.view.image.ArtworkImage
 import dev.tcode.thinmpk.view.nav.LocalNavigator
 import dev.tcode.thinmpk.view.text.PrimaryText
+import dev.tcode.thinmpk.view.util.CustomLifecycleEventObserver
 import dev.tcode.thinmpk.viewmodel.MiniPlayerViewModel
 
 @Composable
@@ -38,6 +39,8 @@ fun MiniPlayer(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val navigator = LocalNavigator.current
+
+    CustomLifecycleEventObserver(viewModel)
 
     if (!uiState.isVisible) {
         return
