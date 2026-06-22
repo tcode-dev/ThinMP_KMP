@@ -33,6 +33,7 @@ class MiniPlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener, Cus
 
     init {
         musicPlayer.addEventListener(listener)
+        updateState()
     }
 
     fun toggle() {
