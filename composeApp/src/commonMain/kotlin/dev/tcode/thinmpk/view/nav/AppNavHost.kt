@@ -11,6 +11,7 @@ import dev.tcode.thinmpk.view.page.AlbumsPage
 import dev.tcode.thinmpk.view.page.ArtistDetailPage
 import dev.tcode.thinmpk.view.page.ArtistsPage
 import dev.tcode.thinmpk.view.page.MainPage
+import dev.tcode.thinmpk.view.page.PlayerPage
 import dev.tcode.thinmpk.view.page.SongsPage
 
 @Composable
@@ -31,6 +32,7 @@ fun AppNavHost() {
                 val route = backStackEntry.toRoute<ArtistDetailRoute>()
                 ArtistDetailPage(id = route.id)
             }
+            composable<PlayerRoute> { PlayerPage() }
         }
     }
 }

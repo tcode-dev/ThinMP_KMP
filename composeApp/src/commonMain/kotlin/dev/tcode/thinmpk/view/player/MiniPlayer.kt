@@ -53,9 +53,7 @@ fun MiniPlayer(
             .navigationBarsPadding()
             .height(StyleConstant.ROW_HEIGHT.dp)
             .padding(StyleConstant.PADDING_TINY.dp)
-            .clickable {
-//                navigator.player()
-            },
+            .clickable { navigator.player() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         ArtworkImage(

@@ -9,6 +9,7 @@ interface INavigator {
     fun songs()
     fun artistDetail(id: String)
     fun albumDetail(id: String)
+    fun player()
 }
 
 class Navigator(private val navController: NavController) : INavigator {
@@ -34,5 +35,9 @@ class Navigator(private val navController: NavController) : INavigator {
 
     override fun albumDetail(id: String) {
         navController.navigate(AlbumDetailRoute(id))
+    }
+
+    override fun player() {
+        navController.navigate(PlayerRoute)
     }
 }
