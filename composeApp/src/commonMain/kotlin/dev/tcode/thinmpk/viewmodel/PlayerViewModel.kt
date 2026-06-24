@@ -44,6 +44,10 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
     val uiState: StateFlow<PlayerUiState> = _uiState.asStateFlow()
     private var seekBarJob: Job? = null
 
+    init {
+        update()
+    }
+
     fun toggle() {
         if (musicPlayer.isPlaying()) {
             musicPlayer.pause()
@@ -144,7 +148,7 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
 
     private fun update() {
         val song = musicPlayer.getCurrentSong() ?: return
-
+print("PlayerViewModel, update")
         _uiState.update { currentState ->
             currentState.copy(
                 songId = song.id,
