@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,6 +30,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.view.button.BackButton
+import dev.tcode.thinmpk.view.image.ArtworkImage
 import dev.tcode.thinmpk.view.text.PrimaryTitle
 import dev.tcode.thinmpk.view.text.SecondaryTitle
 import dev.tcode.thinmpk.viewmodel.PlayerViewModel
@@ -40,11 +42,13 @@ fun PlayerPage(
     val uiState by viewModel.uiState.collectAsState()
 
     Box(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize()) {
+        Column {
             BackButton()
-
+            ArtworkImage(
+                imageId = uiState.imageId,
+                contentDescription = uiState.primaryText,
+            )
             Column(
-                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Column(
