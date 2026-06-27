@@ -41,65 +41,61 @@ fun PlayerPage(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Box(Modifier.fillMaxSize()) {
-        Column {
-            BackButton()
+    Column(Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxSize()) {
             ArtworkImage(
                 imageId = uiState.imageId,
                 contentDescription = uiState.primaryText,
             )
+            BackButton()
             Column(
-                verticalArrangement = Arrangement.SpaceEvenly
+                Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    PrimaryTitle(uiState.primaryText)
-                    SecondaryTitle(uiState.secondaryText)
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center, modifier = Modifier
-                            .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
-                            .clickable { viewModel.prev() }) {
-                        Icon(
-                            imageVector = Icons.Rounded.SkipPrevious,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(72.dp)
-                        )
-                    }
-                    Box(
-                        contentAlignment = Alignment.Center, modifier = Modifier
-                            .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
-                            .clickable { viewModel.toggle() }) {
-                        Icon(
-                            imageVector = if (uiState.isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(88.dp)
-                        )
-                    }
-                    Box(
-                        contentAlignment = Alignment.Center, modifier = Modifier
-                            .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
-                            .clickable { viewModel.next() }) {
-                        Icon(
-                            imageVector = Icons.Rounded.SkipNext,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(72.dp)
-                        )
-                    }
-                }
+                PrimaryTitle(uiState.primaryText)
+                SecondaryTitle(uiState.secondaryText)
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                contentAlignment = Alignment.Center, modifier = Modifier
+                    .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
+                    .clickable { viewModel.prev() }) {
+                Icon(
+                    imageVector = Icons.Rounded.SkipPrevious,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(72.dp)
+                )
+            }
+            Box(
+                contentAlignment = Alignment.Center, modifier = Modifier
+                    .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
+                    .clickable { viewModel.toggle() }) {
+                Icon(
+                    imageVector = if (uiState.isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(88.dp)
+                )
+            }
+            Box(
+                contentAlignment = Alignment.Center, modifier = Modifier
+                    .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
+                    .clickable { viewModel.next() }) {
+                Icon(
+                    imageVector = Icons.Rounded.SkipNext,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(72.dp)
+                )
             }
         }
     }
