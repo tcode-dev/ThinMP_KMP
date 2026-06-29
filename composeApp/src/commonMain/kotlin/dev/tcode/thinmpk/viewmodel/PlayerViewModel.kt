@@ -148,7 +148,7 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
 
     private fun update() {
         val song = musicPlayer.getCurrentSong() ?: return
-print("PlayerViewModel, update")
+
         _uiState.update { currentState ->
             currentState.copy(
                 songId = song.id,
@@ -157,7 +157,7 @@ print("PlayerViewModel, update")
                 imageId = song.imageId,
                 sliderPosition = getSliderPosition(),
                 currentTime = formatTime(musicPlayer.getCurrentPosition()),
-                durationTime = formatTime(song.duration.toLong()),
+                durationTime = formatTime(song.duration.toLong() * 1000),
                 isPlaying = musicPlayer.isPlaying(),
             )
         }
@@ -168,6 +168,6 @@ print("PlayerViewModel, update")
     private fun getSliderPosition(): Float {
         val song = musicPlayer.getCurrentSong() ?: return 0f
 
-        return (musicPlayer.getCurrentPosition().toFloat() / song.duration.toFloat())
+        return musicPlayer.getCurrentPosition().toFloat() / (song.duration.toFloat() * 1000)
     }
 }

@@ -21,15 +21,22 @@ import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
@@ -42,6 +49,7 @@ import dev.tcode.thinmpk.view.text.PrimaryTitle
 import dev.tcode.thinmpk.view.text.SecondaryTitle
 import dev.tcode.thinmpk.viewmodel.PlayerViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayerPage(
     viewModel: PlayerViewModel = viewModel(factory = viewModelFactory { initializer { PlayerViewModel() } })
@@ -111,6 +119,40 @@ fun PlayerPage(
                     .padding(start = StyleConstant.PADDING_TINY.dp)
             ) {
                 BackButton()
+            }
+        }
+        Column(
+            modifier = Modifier.padding(horizontal = 30.dp)
+        ) {
+            Slider(
+                value = uiState.sliderPosition,
+                onValueChange = { viewModel.seek(it) },
+                onValueChangeFinished = { viewModel.seekFinished() },
+                thumb = {
+                    SliderDefaults.Thumb(
+                        interactionSource = remember { MutableInteractionSource() },
+                        colors = SliderDefaults.colors(thumbColor = MaterialTheme.colorScheme.onSurface),
+                        thumbSize = DpSize(20.dp, 20.dp)
+                    )
+                },
+                track = { sliderState ->
+                    SliderDefaults.Track(
+                        sliderState = sliderState,
+                        colors = SliderDefaults.colors(activeTrackColor = MaterialTheme.colorScheme.onSurface),
+                        trackInsideCornerSize = 0.dp,
+                        thumbTrackGapSize = 0.dp,
+                        modifier = Modifier.height(10.dp)
+                    )
+                }
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = StyleConstant.PADDING_SMALL.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(uiState.currentTime, color = MaterialTheme.colorScheme.secondary)
+                Text(uiState.durationTime, color = MaterialTheme.colorScheme.secondary)
             }
         }
         Row(
