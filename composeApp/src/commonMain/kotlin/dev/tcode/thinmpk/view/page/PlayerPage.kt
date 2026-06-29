@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Pause
@@ -102,7 +104,14 @@ fun PlayerPage(
             ) {
                 SecondaryTitle(uiState.secondaryText)
             }
-            BackButton()
+            Row(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .height(StyleConstant.ROW_HEIGHT.dp)
+                    .padding(start = StyleConstant.PADDING_TINY.dp)
+            ) {
+                BackButton()
+            }
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -116,7 +125,7 @@ fun PlayerPage(
                 Icon(
                     imageVector = Icons.Rounded.SkipPrevious,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(72.dp)
                 )
             }
@@ -127,7 +136,7 @@ fun PlayerPage(
                 Icon(
                     imageVector = if (uiState.isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(88.dp)
                 )
             }
@@ -138,7 +147,7 @@ fun PlayerPage(
                 Icon(
                     imageVector = Icons.Rounded.SkipNext,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(72.dp)
                 )
             }
