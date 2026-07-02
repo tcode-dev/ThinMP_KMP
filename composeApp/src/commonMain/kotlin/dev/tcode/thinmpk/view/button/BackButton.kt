@@ -29,7 +29,7 @@ fun BackButton(modifier: Modifier = Modifier) {
         Icon(
             imageVector = Icons.AutoMirrored.Rounded.ArrowBackIos,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.size(StyleConstant.ICON_SIZE.dp)
         )
     }
