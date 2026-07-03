@@ -74,28 +74,6 @@ fun ArtistDetailPage(
         dropdownMenus = { callback ->
         }
     ) {
-//        item(span = { GridItemSpan(spanCount) }) {
-//            val placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
-//
-//            AsyncImage(
-//                model = ArtworkModel(id = uiState.artist?.imageId ?: ""),
-//                contentDescription = uiState.artist?.name,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(horizontal = 80.dp)
-//                    .aspectRatio(1f)
-//                    .clip(CircleShape),
-//                contentScale = ContentScale.Crop,
-//                placeholder = placeholder,
-//                error = placeholder,
-//            )
-//        }
-//        item(span = { GridItemSpan(spanCount) }) {
-//            PrimaryText(
-//                text = uiState.artist?.name ?: "",
-//                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-//            )
-//        }
         item(span = { GridItemSpan(spanCount) }) {
             Box(
                 Modifier
