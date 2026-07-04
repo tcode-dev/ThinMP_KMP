@@ -16,7 +16,6 @@ import dev.tcode.thinmpk.model.ArtworkModel
 @Composable
 fun ArtworkImage(
     imageId: String,
-    contentDescription: String?,
     modifier: Modifier = Modifier,
     size: Dp? = null,
     radius: Dp = 0.dp,
@@ -26,7 +25,7 @@ fun ArtworkImage(
 
     AsyncImage(
         model = ArtworkModel(id = imageId),
-        contentDescription = contentDescription,
+        contentDescription = null,
         modifier = sizeModifier.clip(RoundedCornerShape(radius)),
         contentScale = ContentScale.Crop,
         placeholder = placeholder,

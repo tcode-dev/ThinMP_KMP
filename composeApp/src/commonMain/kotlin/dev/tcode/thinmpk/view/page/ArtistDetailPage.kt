@@ -82,7 +82,6 @@ fun ArtistDetailPage(
             ) {
                 ArtworkImage(
                     imageId = uiState.imageId ?: "",
-                    contentDescription = uiState.artist?.name,
                     modifier = Modifier.fillMaxWidth().blur(20.dp),
                 )
                 Box(
@@ -103,7 +102,6 @@ fun ArtistDetailPage(
                 ) {
                     ArtworkImage(
                         imageId = uiState.imageId ?: "",
-                        contentDescription = uiState.artist?.name,
                         modifier = Modifier
                             .size(imageSize)
                             .clip(CircleShape)

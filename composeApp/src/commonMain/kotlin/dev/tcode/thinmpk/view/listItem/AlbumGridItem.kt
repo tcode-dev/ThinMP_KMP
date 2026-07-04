@@ -16,7 +16,6 @@ fun AlbumGridItem(album: AlbumModel, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         ArtworkImage(
             imageId = album.imageId,
-            contentDescription = album.name,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f),

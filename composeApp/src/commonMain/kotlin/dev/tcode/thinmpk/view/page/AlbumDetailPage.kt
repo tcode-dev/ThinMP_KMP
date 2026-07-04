@@ -70,7 +70,6 @@ fun AlbumDetailPage(
                 ) {
                     ArtworkImage(
                         imageId = uiState.album?.imageId ?: "",
-                        contentDescription = uiState.album?.name,
                         modifier = Modifier.fillMaxWidth(),
                     )
                     Box(

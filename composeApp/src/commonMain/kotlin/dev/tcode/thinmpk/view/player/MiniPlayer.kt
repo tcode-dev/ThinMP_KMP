@@ -58,7 +58,6 @@ fun MiniPlayer(
     ) {
         ArtworkImage(
             imageId = uiState.imageId,
-            contentDescription = uiState.primaryText,
             size = 40.dp,
             radius = 4.dp
         )

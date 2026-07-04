@@ -72,7 +72,6 @@ fun PlayerPage(
         ) {
             ArtworkImage(
                 imageId = uiState.imageId,
-                contentDescription = uiState.primaryText,
                 modifier = Modifier.fillMaxWidth().blur(20.dp),
             )
             Box(
@@ -93,7 +92,6 @@ fun PlayerPage(
             ) {
                 ArtworkImage(
                     imageId = uiState.imageId,
-                    contentDescription = uiState.primaryText,
                     modifier = Modifier.size(imageSize),
                     radius = 4.dp,
                 )
