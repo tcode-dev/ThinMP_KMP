@@ -92,8 +92,9 @@ fun PlayerPage(
             ) {
                 ArtworkImage(
                     imageId = uiState.imageId,
-                    modifier = Modifier.size(imageSize),
-                    radius = 4.dp,
+                    modifier = Modifier
+                        .size(imageSize)
+                        .clip(RoundedCornerShape(4.dp)),
                 )
             }
             Row(

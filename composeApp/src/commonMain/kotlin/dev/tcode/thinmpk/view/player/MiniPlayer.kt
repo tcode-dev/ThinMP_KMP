@@ -58,8 +58,9 @@ fun MiniPlayer(
     ) {
         ArtworkImage(
             imageId = uiState.imageId,
-            size = 40.dp,
-            radius = 4.dp
+            modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(4.dp)),
         )
         Box(
             modifier = Modifier
