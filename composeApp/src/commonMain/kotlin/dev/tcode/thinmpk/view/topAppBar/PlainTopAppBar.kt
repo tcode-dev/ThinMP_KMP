@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.tcode.thinmpk.constant.StyleConstant
+import dev.tcode.thinmpk.view.button.BackButton
 
 @Composable
 fun PlainTopAppBar(title: String, visible: Boolean) {
@@ -41,6 +42,7 @@ fun PlainTopAppBar(title: String, visible: Boolean) {
                 .height(StyleConstant.ROW_HEIGHT.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            BackButton()
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
