@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +40,8 @@ fun PlainTopAppBar(title: String, visible: Boolean) {
             modifier = Modifier
                 .fillMaxWidth()
                 .windowInsetsPadding(WindowInsets.statusBars)
-                .height(StyleConstant.ROW_HEIGHT.dp),
+                .height(StyleConstant.ROW_HEIGHT.dp)
+                .padding(start = StyleConstant.PADDING_TINY.dp, end = StyleConstant.PADDING_TINY.dp + StyleConstant.BUTTON_SIZE.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             BackButton()
