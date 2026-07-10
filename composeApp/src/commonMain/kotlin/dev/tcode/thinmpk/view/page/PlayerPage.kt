@@ -211,7 +211,7 @@ fun PlayerPage(
                     modifier = Modifier
                         .size(StyleConstant.BUTTON_SIZE.dp)
                         .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
-                        .clickable { }) {
+                        .clickable { viewModel.changeRepeat() }) {
                     Icon(
                         imageVector = Icons.Rounded.Repeat,
                         contentDescription = null,
@@ -224,7 +224,7 @@ fun PlayerPage(
                     modifier = Modifier
                         .size(StyleConstant.BUTTON_SIZE.dp)
                         .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
-                        .clickable { }) {
+                        .clickable { viewModel.changeShuffle()}) {
                     Icon(
                         imageVector = Icons.Rounded.Shuffle,
                         contentDescription = null,
@@ -236,7 +236,7 @@ fun PlayerPage(
                     contentAlignment = Alignment.Center, modifier = Modifier
                         .size(StyleConstant.BUTTON_SIZE.dp)
                         .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
-                        .clickable {}) {
+                        .clickable {viewModel.favoriteArtist()}) {
                     Icon(
                         imageVector = Icons.Rounded.Person,
                         contentDescription = null,
@@ -248,7 +248,7 @@ fun PlayerPage(
                     contentAlignment = Alignment.Center, modifier = Modifier
                         .size(StyleConstant.BUTTON_SIZE.dp)
                         .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
-                        .clickable {}) {
+                        .clickable {viewModel.favoriteSong()}) {
                     Icon(
                         imageVector = Icons.Rounded.Favorite,
                         contentDescription = null,

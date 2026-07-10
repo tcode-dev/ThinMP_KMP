@@ -79,15 +79,15 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
         setSeekBarProgressTask()
     }
 
-//    fun changeRepeat() {
+    fun changeRepeat() {
 //        musicPlayer.changeRepeat()
-//    }
-//
-//    fun changeShuffle() {
-//        musicPlayer.changeShuffle()
-//    }
+    }
 
-//    fun favoriteArtist() {
+    fun changeShuffle() {
+//        musicPlayer.changeShuffle()
+    }
+
+    fun favoriteArtist() {
 //        val song = musicPlayer.getCurrentSong() ?: return
 //
 //        if (exists(song.artistId)) {
@@ -97,9 +97,9 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
 //        }
 //
 //        update()
-//    }
+    }
 
-//    fun favoriteSong() {
+    fun favoriteSong() {
 //        val song = musicPlayer.getCurrentSong() ?: return
 //
 //        if (exists(song.songId)) {
@@ -109,7 +109,7 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
 //        }
 //
 //        update()
-//    }
+    }
 
     override fun onChange() {
         cancelSeekBarProgressTask()
