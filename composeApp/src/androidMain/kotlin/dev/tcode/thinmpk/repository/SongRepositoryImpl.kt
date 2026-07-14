@@ -8,6 +8,7 @@ class SongRepositoryImpl : MediaStoreRepository<SongModel>(
     arrayOf(
         MediaStore.Audio.Media._ID,
         MediaStore.Audio.Media.TITLE,
+        MediaStore.Audio.Media.ARTIST_ID,
         MediaStore.Audio.Media.ARTIST,
         MediaStore.Audio.Media.ALBUM_ID,
         MediaStore.Audio.Media.ALBUM,
@@ -50,6 +51,7 @@ class SongRepositoryImpl : MediaStoreRepository<SongModel>(
         return SongModel(
             id = getId(),
             name = getTitle(),
+            artistId = getArtistId(),
             artistName = getArtistName(),
             albumId = getAlbumId(),
             albumName = getAlbumName(),
@@ -64,6 +66,10 @@ class SongRepositoryImpl : MediaStoreRepository<SongModel>(
 
     private fun getTitle(): String {
         return cursor?.getColumnIndex(MediaStore.Audio.Media.TITLE)?.let { cursor?.getString(it) } ?: ""
+    }
+
+    private fun getArtistId(): String {
+        return cursor?.getColumnIndex(MediaStore.Audio.Media.ARTIST_ID)?.let { cursor?.getString(it) } ?: ""
     }
 
     private fun getArtistName(): String {

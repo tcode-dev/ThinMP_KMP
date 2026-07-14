@@ -7,6 +7,7 @@ import dev.tcode.thinmpk.repository.AlbumRepository
 import dev.tcode.thinmpk.repository.AlbumRepositoryImpl
 import dev.tcode.thinmpk.repository.ArtistRepository
 import dev.tcode.thinmpk.repository.ArtistRepositoryImpl
+import dev.tcode.thinmpk.repository.FavoriteArtistRepository
 import dev.tcode.thinmpk.repository.FavoriteSongRepository
 import dev.tcode.thinmpk.repository.SongRepository
 import dev.tcode.thinmpk.repository.SongRepositoryImpl
@@ -17,6 +18,7 @@ import org.koin.dsl.module
 val androidModule = module {
     single<AppDatabase> {
         getDatabaseBuilder()
+            .fallbackToDestructiveMigration(true)
             .setDriver(BundledSQLiteDriver())
             .build()
     }
@@ -25,4 +27,5 @@ val androidModule = module {
     single<ArtistRepository> { ArtistRepositoryImpl() }
     single<MusicPlayer> { MusicPlayerImpl(get()) }
     single<FavoriteSongRepository> { FavoriteSongRepository(get<AppDatabase>().favoriteSongDao()) }
+    single<FavoriteArtistRepository> { FavoriteArtistRepository(get<AppDatabase>().favoriteArtistDao()) }
 }
