@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.player.MusicPlayerListener
+import dev.tcode.thinmpk.repository.FavoriteArtistRepository
 import dev.tcode.thinmpk.repository.FavoriteSongRepository
 import dev.tcode.thinmpk.view.util.CustomLifecycleEventObserverListener
 import kotlinx.coroutines.Job
@@ -35,12 +36,14 @@ data class PlayerUiState(
     var durationTime: String = START_TIME,
     var isPlaying: Boolean = false,
     var isFavoriteSong: Boolean = false,
+    var isFavoriteArtist: Boolean = false,
 )
 
 class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
     CustomLifecycleEventObserverListener {
     private val musicPlayer: MusicPlayer by inject()
     private val favoriteSongRepository: FavoriteSongRepository by inject()
+    private val favoriteArtistRepository: FavoriteArtistRepository by inject()
     private val INTERVAL_MS = 1000L
     private var initialized: Boolean = false
     private val _uiState = MutableStateFlow(PlayerUiState())
@@ -91,15 +94,16 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
     }
 
     fun favoriteArtist() {
-//        val song = musicPlayer.getCurrentSong() ?: return
-//
-//        if (exists(song.artistId)) {
-//            delete(song.artistId)
-//        } else {
-//            add(song.artistId)
-//        }
-//
-//        update()
+        val song = musicPlayer.getCurrentSong() ?: return
+
+        viewModelScope.launch {
+            if (favoriteArtistRepository.exists(song.artistId)) {
+                favoriteArtistRepository.delete(song.artistId)
+            } else {
+                favoriteArtistRepository.add(song.artistId)
+            }
+            _uiState.update { it.copy(isFavoriteArtist = favoriteArtistRepository.exists(song.artistId)) }
+        }
     }
 
     fun favoriteSong() {
@@ -167,7 +171,12 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
         }
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isFavoriteSong = favoriteSongRepository.exists(song.id)) }
+            _uiState.update {
+                it.copy(
+                    isFavoriteSong = favoriteSongRepository.exists(song.id),
+                    isFavoriteArtist = favoriteArtistRepository.exists(song.artistId),
+                )
+            }
         }
 
         setSeekBarProgressTask()

@@ -240,7 +240,7 @@ fun PlayerPage(
                     Icon(
                         imageVector = Icons.Rounded.Person,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
+                        tint = if (uiState.isFavoriteArtist) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
                         modifier = Modifier.size(StyleConstant.IMAGE_SIZE.dp)
                     )
                 }
