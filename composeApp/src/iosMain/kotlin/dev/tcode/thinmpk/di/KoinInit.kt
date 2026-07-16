@@ -5,6 +5,7 @@ import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.repository.AlbumRepository
 import dev.tcode.thinmpk.repository.ArtistRepository
 import dev.tcode.thinmpk.repository.ArtworkRepository
+import dev.tcode.thinmpk.repository.FavoriteArtistRepository
 import dev.tcode.thinmpk.repository.FavoriteSongRepository
 import dev.tcode.thinmpk.repository.SongRepository
 import dev.tcode.thinmpk.repository.room.AppDatabase
@@ -24,6 +25,7 @@ fun initKoin(
             module {
                 single<AppDatabase> {
                     getDatabaseBuilder()
+                        .fallbackToDestructiveMigration(true)
                         .setDriver(BundledSQLiteDriver())
                         .build()
                 }
@@ -33,6 +35,7 @@ fun initKoin(
                 single<ArtworkRepository> { artworkRepository }
                 single<MusicPlayer> { musicPlayer }
                 single<FavoriteSongRepository> { FavoriteSongRepository(get<AppDatabase>().favoriteSongDao()) }
+                single<FavoriteArtistRepository> { FavoriteArtistRepository(get<AppDatabase>().favoriteArtistDao()) }
             }
         )
     }

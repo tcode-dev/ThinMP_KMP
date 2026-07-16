@@ -18,6 +18,7 @@ class SongRepositoryImpl: SongRepository {
             return SongModel(
                 id: String(mediaItem.persistentID),
                 name: mediaItem.title ?? "",
+                artistId: String(mediaItem.artistPersistentID),
                 artistName: mediaItem.artist ?? "",
                 albumId: String(mediaItem.albumPersistentID),
                 albumName: mediaItem.albumTitle ?? "",
@@ -71,6 +72,7 @@ class SongRepositoryImpl: SongRepository {
             return SongModel(
                 id: String(mediaItem.persistentID),
                 name: mediaItem.title ?? "",
+                artistId: String(mediaItem.artistPersistentID),
                 artistName: mediaItem.artist ?? "",
                 albumId: String(mediaItem.albumPersistentID),
                 albumName: mediaItem.albumTitle ?? "",
@@ -96,6 +98,7 @@ class SongRepositoryImpl: SongRepository {
             return SongModel(
                 id: String(mediaItem.persistentID),
                 name: mediaItem.title ?? "",
+                artistId: String(mediaItem.artistPersistentID),
                 artistName: mediaItem.artist ?? "",
                 albumId: String(mediaItem.albumPersistentID),
                 albumName: mediaItem.albumTitle ?? "",
