@@ -31,6 +31,18 @@ class SongRepositoryImpl : MediaStoreRepository<SongModel>(
         return getList()
     }
 
+    override fun findByIds(ids: List<String>): List<SongModel> {
+        if (ids.isEmpty()) return emptyList()
+
+        val placeholders = ids.joinToString(",") { "?" }
+
+        selection = "${MediaStore.Audio.Media._ID} IN ($placeholders)"
+        selectionArgs = ids.toTypedArray()
+        sortOrder = null
+
+        return getList()
+    }
+
     override fun findByAlbumId(albumId: String): List<SongModel> {
         selection = "${MediaStore.Audio.Media.ALBUM_ID} = ?"
         selectionArgs = arrayOf(albumId)
