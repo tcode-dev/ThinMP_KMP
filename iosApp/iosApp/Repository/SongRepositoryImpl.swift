@@ -56,6 +56,40 @@ class SongRepositoryImpl: SongRepository {
         )
     }
 
+    func findByIds(ids: [String]) -> [SongModel] {
+        let query = MPMediaQuery.songs()
+        query.addFilterPredicate(
+            MPMediaPropertyPredicate(
+                value: false,
+                forProperty: MPMediaItemPropertyIsCloudItem
+            )
+        )
+
+        guard let collections = query.collections else { return [] }
+
+        let filtered = collections.filter { collection in
+            guard let mediaItem = collection.representativeItem else { return false }
+            return ids.contains(String(mediaItem.persistentID))
+        }
+
+        return ids.compactMap { id in
+            guard let collection = filtered.first(where: {
+                $0.representativeItem?.persistentID.description == id
+            }) else { return nil }
+            guard let mediaItem = collection.representativeItem else { return nil }
+            return SongModel(
+                id: String(mediaItem.persistentID),
+                name: mediaItem.title ?? "",
+                artistId: String(mediaItem.artistPersistentID),
+                artistName: mediaItem.artist ?? "",
+                albumId: String(mediaItem.albumPersistentID),
+                albumName: mediaItem.albumTitle ?? "",
+                duration: Int32(mediaItem.playbackDuration),
+                imageId: String(mediaItem.persistentID)
+            )
+        }
+    }
+
     func findByArtistId(artistId: String) -> [SongModel] {
         let query = MPMediaQuery.songs()
         query.addFilterPredicate(
