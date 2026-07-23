@@ -21,4 +21,7 @@ data class AlbumDetailRoute(val id: String)
 data class ArtistDetailRoute(val id: String)
 
 @Serializable
+object FavoriteSongsRoute
+
+@Serializable
 object PlayerRoute
