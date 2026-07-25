@@ -48,6 +48,14 @@ fun MainPage() {
                     .padding(16.dp)
             )
             PlainText(
+                text = "Favorite Songs",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navigator.favoriteSongs() }
+                    .padding(16.dp)
+            )
+            PlainText(
                 text = "Albums",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
