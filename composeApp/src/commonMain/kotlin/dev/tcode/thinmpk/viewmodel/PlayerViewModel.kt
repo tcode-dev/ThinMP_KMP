@@ -51,7 +51,13 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
     private var seekBarJob: Job? = null
 
     init {
+        musicPlayer.addEventListener(this)
         update()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        musicPlayer.removeEventListener(this)
     }
 
     fun toggle() {
