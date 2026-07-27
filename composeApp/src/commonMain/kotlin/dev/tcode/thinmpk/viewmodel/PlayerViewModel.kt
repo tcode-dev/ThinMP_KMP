@@ -80,7 +80,7 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
         cancelSeekBarProgressTask()
 
         val song = musicPlayer.getCurrentSong() ?: return
-        val ms = (song.duration.toFloat() * value).toLong()
+        val ms = (song.duration.toFloat() * 1000 * value).toLong()
 
         musicPlayer.seekTo(ms)
 
