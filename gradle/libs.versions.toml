@@ -21,6 +21,8 @@ media3 = "1.10.0"
 room = "2.7.1"
 ksp = "2.3.9"
 sqlite = "2.5.1"
+datastore = "1.2.1"
+okio = "3.18.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -52,6 +54,8 @@ media3-session = { module = "androidx.media3:media3-session", version.ref = "med
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

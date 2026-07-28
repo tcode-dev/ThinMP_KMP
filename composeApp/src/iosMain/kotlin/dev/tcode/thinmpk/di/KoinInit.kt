@@ -1,6 +1,7 @@
 package dev.tcode.thinmpk.di
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import dev.tcode.thinmpk.config.ConfigStore
 import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.repository.AlbumRepository
 import dev.tcode.thinmpk.repository.ArtistRepository
@@ -29,6 +30,7 @@ fun initKoin(
                         .setDriver(BundledSQLiteDriver())
                         .build()
                 }
+                single<ConfigStore> { ConfigStore.instance }
                 single<SongRepository> { songRepository }
                 single<AlbumRepository> { albumRepository }
                 single<ArtistRepository> { artistRepository }

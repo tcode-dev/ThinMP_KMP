@@ -92,11 +92,11 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
     }
 
     fun changeRepeat() {
-//        musicPlayer.changeRepeat()
+        musicPlayer.changeRepeat()
     }
 
     fun changeShuffle() {
-//        musicPlayer.changeShuffle()
+        musicPlayer.changeShuffle()
     }
 
     fun favoriteArtist() {

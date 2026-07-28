@@ -1,6 +1,7 @@
 package dev.tcode.thinmpk.di
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import dev.tcode.thinmpk.config.ConfigStore
 import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.player.MusicPlayerImpl
 import dev.tcode.thinmpk.repository.AlbumRepository
@@ -22,6 +23,7 @@ val androidModule = module {
             .setDriver(BundledSQLiteDriver())
             .build()
     }
+    single<ConfigStore> { ConfigStore.instance }
     single<SongRepository> { SongRepositoryImpl() }
     single<AlbumRepository> { AlbumRepositoryImpl() }
     single<ArtistRepository> { ArtistRepositoryImpl() }

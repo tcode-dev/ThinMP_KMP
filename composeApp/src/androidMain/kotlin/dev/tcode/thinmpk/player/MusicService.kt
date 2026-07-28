@@ -26,9 +26,17 @@ import dev.tcode.thinmpk.constant.NotificationConstant
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.notification.LocalNotificationHelper
 import dev.tcode.thinmpk.receiver.HeadsetEventReceiver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.io.IOException
 
-class MusicService : Service() {
+class MusicService : Service(), KoinComponent {
     private val PREV_MS = 3000
     private val binder = MusicBinder()
     private lateinit var player: ExoPlayer
@@ -38,7 +46,8 @@ class MusicService : Service() {
     private lateinit var mediaStyle: MediaStyleNotificationHelper.MediaStyle
     private lateinit var headsetEventReceiver: HeadsetEventReceiver
     private lateinit var playerEventListener: PlayerEventListener
-    private lateinit var config: ConfigStore
+    private val config: ConfigStore by inject()
+    private val configScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private lateinit var repeat: RepeatState
     private var listeners: MutableList<MusicPlayerListener> = mutableListOf()
     private var playingList: List<SongModel> = emptyList()
@@ -55,9 +64,10 @@ class MusicService : Service() {
         super.onCreate()
 
         isServiceRunning = true
-        config = ConfigStore(baseContext)
-        repeat = config.getRepeat()
-        shuffle = config.getShuffle()
+        runBlocking {
+            repeat = config.getRepeat()
+            shuffle = config.getShuffle()
+        }
         headsetEventReceiver = HeadsetEventReceiver { player.stop() }
 
         registerReceiver(headsetEventReceiver, IntentFilter(Intent.ACTION_HEADSET_PLUG))
@@ -130,7 +140,7 @@ class MusicService : Service() {
             RepeatState.ALL -> RepeatState.ONE
         }
         setRepeat()
-        config.saveRepeat(repeat)
+        configScope.launch { config.saveRepeat(repeat) }
         onChange()
     }
 
@@ -141,7 +151,7 @@ class MusicService : Service() {
     fun changeShuffle() {
         shuffle = !shuffle
         setShuffle()
-        config.saveShuffle(shuffle)
+        configScope.launch { config.saveShuffle(shuffle) }
         onChange()
     }
 
@@ -313,6 +323,7 @@ class MusicService : Service() {
         LocalNotificationHelper.cancelAll(applicationContext)
         unregisterReceiver(headsetEventReceiver)
         stopForeground(STOP_FOREGROUND_DETACH)
+        configScope.cancel()
         isServiceRunning = false
     }
 

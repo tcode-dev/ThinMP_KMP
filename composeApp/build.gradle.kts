@@ -53,6 +53,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
+            implementation(libs.datastore.preferences.core)
+            implementation(libs.okio)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

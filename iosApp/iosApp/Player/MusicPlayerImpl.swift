@@ -4,21 +4,36 @@ import ComposeApp
 class MusicPlayerImpl: ComposeApp.MusicPlayer {
     private let PREV_SECOND: Double = 3
     private let player: MPMusicPlayerController
-    private let playerConfig: PlayerConfig
+    private let configStore: ConfigStore
     private var listeners: [MusicPlayerListener] = []
     private var playingList: [SongModel] = []
     private var currentRepeat: RepeatState = .off
     private var currentShuffle: Bool = false
 
     init() {
-        playerConfig = PlayerConfig()
+        configStore = ConfigStore.companion.instance
         player = MPMusicPlayerController.applicationMusicPlayer
-        player.repeatMode = playerConfig.getRepeat()
-        player.shuffleMode = playerConfig.getShuffle()
-        currentRepeat = Self.toRepeatState(mode: player.repeatMode)
-        currentShuffle = player.shuffleMode == .songs
         addObserver()
         player.beginGeneratingPlaybackNotifications()
+        loadConfig()
+    }
+
+    private func loadConfig() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            if let repeatState = try? await self.configStore.getRepeat() {
+                self.currentRepeat = repeatState
+                self.player.repeatMode = Self.toRepeatMode(state: repeatState)
+            }
+
+            if let shuffle = try? await self.configStore.getShuffle() {
+                self.currentShuffle = shuffle.boolValue
+                self.player.shuffleMode = shuffle.boolValue ? .songs : .off
+            }
+
+            self.onChange()
+        }
     }
 
     func start(songs: [SongModel], index: Int32) {
@@ -101,7 +116,12 @@ class MusicPlayerImpl: ComposeApp.MusicPlayer {
             : player.repeatMode == .all ? .one
             : .none
         currentRepeat = Self.toRepeatState(mode: player.repeatMode)
-        playerConfig.setRepeat(value: player.repeatMode)
+
+        let repeatState = currentRepeat
+        Task { @MainActor [configStore] in
+            try? await configStore.saveRepeat(value: repeatState)
+        }
+
         onChange()
     }
 
@@ -112,7 +132,12 @@ class MusicPlayerImpl: ComposeApp.MusicPlayer {
     func changeShuffle() {
         player.shuffleMode = player.shuffleMode == .off ? .songs : .off
         currentShuffle = player.shuffleMode == .songs
-        playerConfig.setShuffle(value: player.shuffleMode)
+
+        let shuffle = currentShuffle
+        Task { @MainActor [configStore] in
+            try? await configStore.saveShuffle(value: shuffle)
+        }
+
         onChange()
     }
 
@@ -152,6 +177,13 @@ class MusicPlayerImpl: ComposeApp.MusicPlayer {
         case .all: return .all
         default: return .off
         }
+    }
+
+    private static func toRepeatMode(state: RepeatState) -> MPMusicRepeatMode {
+        if state == .one { return .one }
+        if state == .all { return .all }
+
+        return MPMusicRepeatMode.none
     }
 
     deinit {
