@@ -35,6 +35,7 @@ data class PlayerUiState(
     var currentTime: String = START_TIME,
     var durationTime: String = START_TIME,
     var isPlaying: Boolean = false,
+    var isShuffle: Boolean = false,
     var isFavoriteSong: Boolean = false,
     var isFavoriteArtist: Boolean = false,
 )
@@ -173,6 +174,7 @@ class PlayerViewModel : ViewModel(), KoinComponent, MusicPlayerListener,
                 currentTime = formatTime(musicPlayer.getCurrentPosition()),
                 durationTime = formatTime(song.duration.toLong() * 1000),
                 isPlaying = musicPlayer.isPlaying(),
+                isShuffle = musicPlayer.getShuffle(),
             )
         }
 
