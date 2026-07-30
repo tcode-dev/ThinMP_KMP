@@ -19,6 +19,7 @@ import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.Repeat
+import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Favorite
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import dev.tcode.thinmpk.config.RepeatState
 import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.view.button.BackButton
 import dev.tcode.thinmpk.view.collapsingAppBar.detailSize
@@ -213,10 +215,10 @@ fun PlayerPage(
                         .clip(RoundedCornerShape(StyleConstant.IMAGE_CORNER_SIZE.dp))
                         .clickable { viewModel.changeRepeat() }) {
                     Icon(
-                        imageVector = Icons.Rounded.Repeat,
+                        imageVector = if (uiState.repeat == RepeatState.ONE) Icons.Rounded.RepeatOne else Icons.Rounded.Repeat,
                         contentDescription = null,
                         modifier = Modifier.size(StyleConstant.IMAGE_SIZE.dp),
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        tint = if (uiState.repeat == RepeatState.OFF) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f) else MaterialTheme.colorScheme.onSurface,
                     )
                 }
                 Box(
