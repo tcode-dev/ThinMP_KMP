@@ -41,4 +41,11 @@ class FavoriteSongsViewModel : ViewModel(), KoinComponent {
             musicPlayer.start(songs, index)
         }
     }
+
+    fun deleteFavorite(song: SongModel) {
+        viewModelScope.launch {
+            favoriteSongRepository.delete(song.id)
+            load()
+        }
+    }
 }

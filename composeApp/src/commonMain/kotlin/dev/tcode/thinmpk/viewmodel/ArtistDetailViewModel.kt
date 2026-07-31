@@ -1,17 +1,20 @@
 package dev.tcode.thinmpk.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.tcode.thinmpk.model.AlbumModel
 import dev.tcode.thinmpk.model.ArtistModel
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.repository.AlbumRepository
 import dev.tcode.thinmpk.repository.ArtistRepository
+import dev.tcode.thinmpk.repository.FavoriteSongRepository
 import dev.tcode.thinmpk.repository.SongRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -26,6 +29,7 @@ class ArtistDetailViewModel(private val artistId: String) : ViewModel(), KoinCom
     private val artistRepository: ArtistRepository by inject()
     private val albumRepository: AlbumRepository by inject()
     private val songRepository: SongRepository by inject()
+    private val favoriteSongRepository: FavoriteSongRepository by inject()
     private val musicPlayer: MusicPlayer by inject()
     private val _uiState = MutableStateFlow(ArtistDetailUiState())
     val uiState: StateFlow<ArtistDetailUiState> = _uiState.asStateFlow()
@@ -44,6 +48,14 @@ class ArtistDetailViewModel(private val artistId: String) : ViewModel(), KoinCom
 
         if (songs.isNotEmpty()) {
             musicPlayer.start(songs, index)
+        }
+    }
+
+    fun addFavorite(song: SongModel) {
+        viewModelScope.launch {
+            if (!favoriteSongRepository.exists(song.id)) {
+                favoriteSongRepository.add(song.id)
+            }
         }
     }
 }

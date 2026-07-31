@@ -1,13 +1,12 @@
 package dev.tcode.thinmpk.view.page
 
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -29,12 +28,18 @@ fun FavoriteSongsPage(
     MiniPlayerLayout {
         ListCollapsingAppBar("Favorite Songs") {
             itemsIndexed(uiState.songs) { index, song ->
-                SongListItem(song, Modifier.pointerInput(index) {
-                    detectTapGestures(
-                        onLongPress = { println("onLongPress: index=$index, song=${song.name}") },
-                        onTap = { viewModel.start(index) }
+                SongListItem(
+                    song,
+                    onClick = { viewModel.start(index) },
+                ) { dismiss ->
+                    DropdownMenuItem(
+                        text = { Text("Remove from Favorites") },
+                        onClick = {
+                            dismiss()
+                            viewModel.deleteFavorite(song)
+                        },
                     )
-                })
+                }
             }
         }
     }
