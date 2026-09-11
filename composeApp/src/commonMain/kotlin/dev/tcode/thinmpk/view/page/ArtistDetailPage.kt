@@ -1,6 +1,7 @@
 package dev.tcode.thinmpk.view.page
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,9 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,6 +36,8 @@ import dev.tcode.thinmpk.constant.StyleConstant
 import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.view.collapsingAppBar.DetailCollapsingAppBar
 import dev.tcode.thinmpk.view.collapsingAppBar.detailSize
+import dev.tcode.thinmpk.view.dropdownMenu.DropdownMenuBox
+import dev.tcode.thinmpk.view.dropdownMenu.FavoriteSongDropdownMenuItem
 import dev.tcode.thinmpk.view.listItem.AlbumGridItem
 import dev.tcode.thinmpk.view.listItem.GridItem
 import dev.tcode.thinmpk.view.listItem.SongListItem
@@ -152,17 +154,15 @@ fun ArtistDetailPage(
             itemsIndexed(
                 uiState.songs,
                 span = { _: Int, _: SongModel -> GridItemSpan(spanCount) }) { index, song ->
-                SongListItem(
-                    song,
-                    onClick = { viewModel.start(index) },
-                ) { dismiss ->
-                    DropdownMenuItem(
-                        text = { Text("Add to Favorites") },
-                        onClick = {
-                            dismiss()
-                            viewModel.addFavorite(song)
-                        },
-                    )
+                DropdownMenuBox(dropdownContent = { callback ->
+                    FavoriteSongDropdownMenuItem(song, callback)
+                }) { callback ->
+                    SongListItem(song, Modifier.pointerInput(index) {
+                        detectTapGestures(
+                            onLongPress = { callback() },
+                            onTap = { viewModel.start(index) }
+                        )
+                    })
                 }
             }
         }
