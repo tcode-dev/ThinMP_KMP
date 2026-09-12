@@ -38,6 +38,7 @@ import dev.tcode.thinmpk.view.collapsingAppBar.DetailCollapsingAppBar
 import dev.tcode.thinmpk.view.collapsingAppBar.detailSize
 import dev.tcode.thinmpk.view.dropdownMenu.DropdownMenuBox
 import dev.tcode.thinmpk.view.dropdownMenu.FavoriteSongDropdownMenuItem
+import dev.tcode.thinmpk.view.layout.MiniPlayerLayout
 import dev.tcode.thinmpk.view.listItem.AlbumGridItem
 import dev.tcode.thinmpk.view.listItem.GridItem
 import dev.tcode.thinmpk.view.listItem.SongListItem
@@ -69,100 +70,102 @@ fun ArtistDetailPage(
     LaunchedEffect(Unit) {
         viewModel.load()
     }
-    DetailCollapsingAppBar(
-        title = uiState.artist?.name ?: "",
-        columns = CustomGridCellsFixed(spanCount),
-        spanCount = spanCount,
-        dropdownMenus = { callback ->
-        }
-    ) {
-        item(span = { GridItemSpan(spanCount) }) {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(size)
-            ) {
-                ArtworkImage(
-                    imageId = uiState.imageId ?: "",
-                    modifier = Modifier.fillMaxWidth().blur(20.dp),
-                )
+    MiniPlayerLayout {
+        DetailCollapsingAppBar(
+            title = uiState.artist?.name ?: "",
+            columns = CustomGridCellsFixed(spanCount),
+            spanCount = spanCount,
+            dropdownMenus = { callback ->
+            }
+        ) {
+            item(span = { GridItemSpan(spanCount) }) {
                 Box(
-                    modifier = Modifier
+                    Modifier
                         .fillMaxWidth()
-                        .height(gradientHeight)
-                        .align(Alignment.BottomCenter)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                0.0f to MaterialTheme.colorScheme.background.copy(alpha = 0F),
-                                1.0F to MaterialTheme.colorScheme.background,
-                            )
-                        ),
-                ) {}
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                        .height(size)
                 ) {
                     ArtworkImage(
                         imageId = uiState.imageId ?: "",
+                        modifier = Modifier.fillMaxWidth().blur(20.dp),
+                    )
+                    Box(
                         modifier = Modifier
-                            .size(imageSize)
-                            .clip(CircleShape)
+                            .fillMaxWidth()
+                            .height(gradientHeight)
+                            .align(Alignment.BottomCenter)
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    0.0f to MaterialTheme.colorScheme.background.copy(alpha = 0F),
+                                    1.0F to MaterialTheme.colorScheme.background,
+                                )
+                            ),
+                    ) {}
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        ArtworkImage(
+                            imageId = uiState.imageId ?: "",
+                            modifier = Modifier
+                                .size(imageSize)
+                                .clip(CircleShape)
+                        )
+                    }
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(StyleConstant.ROW_HEIGHT.dp)
+                            .offset(y = primaryTitlePosition),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        PrimaryTitle(uiState.artist?.name ?: "")
+                    }
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(25.dp)
+                            .offset(y = secondaryTitlePosition),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        SecondaryTitle(uiState.artist?.name ?: "")
+                    }
+                }
+            }
+            if (uiState.albums.isNotEmpty()) {
+                item(span = { GridItemSpan(spanCount) }) {
+                    PlainText(
+                        text = "Albums",
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
                     )
                 }
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(StyleConstant.ROW_HEIGHT.dp)
-                        .offset(y = primaryTitlePosition),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    PrimaryTitle(uiState.artist?.name ?: "")
-                }
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(25.dp)
-                        .offset(y = secondaryTitlePosition),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    SecondaryTitle(uiState.artist?.name ?: "")
+                itemsIndexed(items = uiState.albums) { index, album ->
+                    GridItem(index, spanCount) {
+                        AlbumGridItem(album, Modifier.clickable { navigator.albumDetail(album.id) })
+                    }
                 }
             }
-        }
-        if (uiState.albums.isNotEmpty()) {
-            item(span = { GridItemSpan(spanCount) }) {
-                PlainText(
-                    text = "Albums",
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-                )
-            }
-            itemsIndexed(items = uiState.albums) { index, album ->
-                GridItem(index, spanCount) {
-                    AlbumGridItem(album, Modifier.clickable { navigator.albumDetail(album.id) })
+            if (uiState.songs.isNotEmpty()) {
+                item(span = { GridItemSpan(spanCount) }) {
+                    PlainText(
+                        text = "Songs",
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                    )
                 }
-            }
-        }
-        if (uiState.songs.isNotEmpty()) {
-            item(span = { GridItemSpan(spanCount) }) {
-                PlainText(
-                    text = "Songs",
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-                )
-            }
-            itemsIndexed(
-                uiState.songs,
-                span = { _: Int, _: SongModel -> GridItemSpan(spanCount) }) { index, song ->
-                DropdownMenuBox(dropdownContent = { callback ->
-                    FavoriteSongDropdownMenuItem(song, callback)
-                }) { callback ->
-                    SongListItem(song, Modifier.pointerInput(index) {
-                        detectTapGestures(
-                            onLongPress = { callback() },
-                            onTap = { viewModel.start(index) }
-                        )
-                    })
+                itemsIndexed(
+                    uiState.songs,
+                    span = { _: Int, _: SongModel -> GridItemSpan(spanCount) }) { index, song ->
+                    DropdownMenuBox(dropdownContent = { callback ->
+                        FavoriteSongDropdownMenuItem(song, callback)
+                    }) { callback ->
+                        SongListItem(song, Modifier.pointerInput(index) {
+                            detectTapGestures(
+                                onLongPress = { callback() },
+                                onTap = { viewModel.start(index) }
+                            )
+                        })
+                    }
                 }
             }
         }
