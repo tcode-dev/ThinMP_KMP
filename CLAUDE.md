@@ -42,7 +42,7 @@ ThinMP_KMP is a Kotlin Multiplatform (KMP) music player app targeting Android an
 
 ## Key Config
 
-- Kotlin 2.3.0, Compose Multiplatform 1.10.0
-- Android: minSdk 24, targetSdk/compileSdk 36, JVM target 11
+- Kotlin 2.4.20, Compose Multiplatform 1.12.0
+- Android: minSdk 24, targetSdk 36, compileSdk 37, JVM target 11
 - iOS: arm64 + simulatorArm64, static framework named "ComposeApp"
 - Version catalog: `gradle/libs.versions.toml`
