@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.tcode.thinmpk.view.collapsingAppBar.ListCollapsingAppBar
+import dev.tcode.thinmpk.view.layout.MiniPlayerLayout
 import dev.tcode.thinmpk.view.nav.LocalNavigator
 import dev.tcode.thinmpk.view.text.PlainText
 import dev.tcode.thinmpk.viewmodel.FavoriteArtistsViewModel
@@ -30,18 +31,20 @@ fun FavoriteArtistsPage(
         viewModel.load()
     }
 
-    ListCollapsingAppBar(
-        title = "Favorite Artists",
-    ) {
-        itemsIndexed(uiState.artists) { _, artist ->
-            PlainText(
-                text = artist.name,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { navigator.artistDetail(artist.id) }
-                    .padding(16.dp),
-            )
+    MiniPlayerLayout {
+        ListCollapsingAppBar(
+            title = "Favorite Artists",
+        ) {
+            itemsIndexed(uiState.artists) { _, artist ->
+                PlainText(
+                    text = artist.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { navigator.artistDetail(artist.id) }
+                        .padding(16.dp),
+                )
+            }
         }
     }
 }
