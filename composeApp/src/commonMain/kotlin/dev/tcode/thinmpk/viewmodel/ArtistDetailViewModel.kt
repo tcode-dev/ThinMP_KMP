@@ -20,6 +20,7 @@ data class ArtistDetailUiState(
     val albums: List<AlbumModel> = emptyList(),
     val songs: List<SongModel> = emptyList(),
     val imageId: String? = null,
+    val secondaryText: String = "",
 )
 
 class ArtistDetailViewModel(private val artistId: String) : ViewModel(), KoinComponent {
@@ -34,9 +35,18 @@ class ArtistDetailViewModel(private val artistId: String) : ViewModel(), KoinCom
         val artist = artistRepository.findById(artistId)
         val albums = albumRepository.findByArtistId(artistId)
         val songs = songRepository.findByArtistId(artistId)
-        val imageId = albums.first().imageId
+        val imageId = albums.firstOrNull()?.imageId
+        val secondaryText = "${albums.count()} albums, ${songs.count()} songs"
 
-        _uiState.update { it.copy(artist = artist, albums = albums, songs = songs, imageId = imageId) }
+        _uiState.update {
+            it.copy(
+                artist = artist,
+                albums = albums,
+                songs = songs,
+                imageId = imageId,
+                secondaryText = secondaryText,
+            )
+        }
     }
 
     fun start(index: Int) {

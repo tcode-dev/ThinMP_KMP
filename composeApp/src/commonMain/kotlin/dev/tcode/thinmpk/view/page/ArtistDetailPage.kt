@@ -129,7 +129,7 @@ fun ArtistDetailPage(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
                     ) {
-                        SecondaryTitle(uiState.artist?.name ?: "")
+                        SecondaryTitle(uiState.secondaryText)
                     }
                 }
             }
