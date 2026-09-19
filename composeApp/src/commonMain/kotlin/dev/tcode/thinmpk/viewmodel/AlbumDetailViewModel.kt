@@ -6,6 +6,7 @@ import dev.tcode.thinmpk.model.SongModel
 import dev.tcode.thinmpk.player.MusicPlayer
 import dev.tcode.thinmpk.repository.AlbumRepository
 import dev.tcode.thinmpk.repository.SongRepository
+import dev.tcode.thinmpk.view.util.CustomLifecycleEventObserverListener
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,10 +19,11 @@ data class AlbumDetailUiState(
     val songs: List<SongModel> = emptyList(),
 )
 
-class AlbumDetailViewModel(private val albumId: String) : ViewModel(), KoinComponent {
+class AlbumDetailViewModel(private val albumId: String) : ViewModel(), KoinComponent, CustomLifecycleEventObserverListener {
     private val albumRepository: AlbumRepository by inject()
     private val songRepository: SongRepository by inject()
     private val musicPlayer: MusicPlayer by inject()
+    private var initialized: Boolean = false
     private val _uiState = MutableStateFlow(AlbumDetailUiState())
     val uiState: StateFlow<AlbumDetailUiState> = _uiState.asStateFlow()
 
@@ -30,6 +32,14 @@ class AlbumDetailViewModel(private val albumId: String) : ViewModel(), KoinCompo
         val songs = songRepository.findByAlbumId(albumId)
 
         _uiState.update { it.copy(album = album, songs = songs) }
+    }
+
+    override fun onResume() {
+        if (initialized) {
+            load()
+        } else {
+            initialized = true
+        }
     }
 
     fun start(index: Int) {

@@ -13,7 +13,7 @@ Android 版 (`ThinMP_Android_Kotlin`) の `AlbumDetailScreen` と、KMP 版 (`co
 | 1 | ショートカット登録／解除 (TopAppBar メニュー) | `ShortcutDropdownMenuItemView(AlbumId(id))` | `dropdownMenus = { }` (空) | **未実装** (機能自体が存在しない) |
 | 2 | プレイリストへ追加 (曲行の長押しメニュー) | `PlaylistDropdownMenuItemView` → `PlaylistRegisterPopupView` | メニュー項目なし | **未実装** (機能自体が存在しない) |
 | 3 | `CommonLayoutView` (プレイリスト登録ポップアップを持つ共通レイアウト) | あり | コメントアウトされ `MiniPlayerLayout` を直接使用 | **未実装** (#2 に依存) |
-| 4 | 画面復帰 (onResume) 時の再読み込み | `CustomLifecycleEventObserver(viewModel)` で `load()` 再実行 | `LaunchedEffect(Unit)` で初回のみ | **未実装** |
+| 4 | 画面復帰 (onResume) 時の再読み込み | `CustomLifecycleEventObserver(viewModel)` で `load()` 再実行 | 同上 | **対応済み** (2026-09-20) |
 | 5 | プレイヤーエラー時 (`onError`) の再読み込み | ViewModel が `MusicPlayerListener` を実装し `load()` | リスナー未登録 | **未実装** |
 | 6 | 曲一覧の `IS_MUSIC = 1` フィルタ | `findByAlbumId` の selection に含む | 含む | **対応済み** (2026-09-19) |
 | 7 | トラック番号ソート (`"15/30"` 形式対応) | `CD_TRACK_NUMBER` を CASE 式でパース + メモリ上でも `sortedBy` | `TRACK ASC` のみ | 差分 (要確認) |
@@ -175,18 +175,27 @@ class AlbumDetailViewModel(...) : AndroidViewModel(application), CustomLifecycle
 
 `ON_RESUME` で 2 回目以降は `load()` を再実行する。別画面でお気に入り操作をして戻ってきた場合や、他アプリでライブラリが変わった場合に反映される。
 
-### KMP 版の現状
+### KMP 版 (対応済み: 2026-09-20)
+
+`AlbumDetailViewModel` に `CustomLifecycleEventObserverListener` を実装し、`onResume` で 2 回目以降に `load()` を再実行する。初回の `load()` は従来通り `LaunchedEffect(Unit)` で行い、オブザーバー登録時に即時発火する最初の `ON_RESUME` は `initialized` フラグで読み飛ばす。
 
 ```kotlin
+// AlbumDetailViewModel.kt (KMP)
+override fun onResume() {
+    if (initialized) {
+        load()
+    } else {
+        initialized = true
+    }
+}
+
 // AlbumDetailPage.kt (KMP)
 LaunchedEffect(Unit) {
     viewModel.load()
 }
+
+CustomLifecycleEventObserver(viewModel)
 ```
-
-初回コンポーズ時のみ。`AlbumDetailViewModel` は `CustomLifecycleEventObserverListener` を実装していない。
-
-KMP 側には `view/util/CustomLifecycleEventObserver.kt` (同じインターフェース) が既にあり、`MiniPlayerViewModel` で使用しているので、`AlbumDetailViewModel` に `CustomLifecycleEventObserverListener` を実装して `onResume` で `load()` を呼び、`AlbumDetailPage` で `CustomLifecycleEventObserver(viewModel)` を呼べばよい。
 
 > `onStop` の `musicPlayer.destroy()` / `bindService()` は Android 版が画面ごとにサービスへ bind/unbind する設計のためのもの。KMP 版は `MusicPlayer` が Koin の singleton なので、この部分は移植不要。
 
@@ -292,7 +301,7 @@ Android 版は `ImageView(uri, contentScale = ContentScale.Fit, modifier = Modif
 
 ## 推奨する実装順
 
-1. ~~#6 (`IS_MUSIC` フィルタ)~~ (対応済み) と #4 (onResume 再読み込み) — 小さく、既存部品で完結する
+1. ~~#6 (`IS_MUSIC` フィルタ)~~ (対応済み) と ~~#4 (onResume 再読み込み)~~ (対応済み) — 小さく、既存部品で完結する
 2. #8 (`DropdownMenuBox` の id キー化) — 他画面のバグ予防にもなる
 3. #10 (文言リソース化) — #1/#2 の前提として
 4. #1 (ショートカット) — DB スキーマ変更を伴うが単機能

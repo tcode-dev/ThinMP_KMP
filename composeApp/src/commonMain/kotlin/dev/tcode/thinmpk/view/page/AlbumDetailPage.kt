@@ -35,6 +35,7 @@ import dev.tcode.thinmpk.view.listItem.SongListItem
 import dev.tcode.thinmpk.view.text.PrimaryTitle
 import dev.tcode.thinmpk.view.text.SecondaryTitle
 import dev.tcode.thinmpk.view.util.CustomGridCellsFixed
+import dev.tcode.thinmpk.view.util.CustomLifecycleEventObserver
 import dev.tcode.thinmpk.view.util.gridSpanCount
 import dev.tcode.thinmpk.viewmodel.AlbumDetailViewModel
 
@@ -54,6 +55,8 @@ fun AlbumDetailPage(
     LaunchedEffect(Unit) {
         viewModel.load()
     }
+
+    CustomLifecycleEventObserver(viewModel)
 
 //    CommonLayoutView(uiState.isVisiblePlayer) { showPlaylistRegisterPopup ->
     MiniPlayerLayout {
