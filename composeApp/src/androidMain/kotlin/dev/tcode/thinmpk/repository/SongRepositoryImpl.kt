@@ -44,16 +44,16 @@ class SongRepositoryImpl : MediaStoreRepository<SongModel>(
     }
 
     override fun findByAlbumId(albumId: String): List<SongModel> {
-        selection = "${MediaStore.Audio.Media.ALBUM_ID} = ?"
-        selectionArgs = arrayOf(albumId)
+        selection = "${MediaStore.Audio.Media.ALBUM_ID} = ? AND ${MediaStore.Audio.Media.IS_MUSIC} = ?"
+        selectionArgs = arrayOf(albumId, "1")
         sortOrder = "${MediaStore.Audio.Media.TRACK} ASC"
 
         return getList()
     }
 
     override fun findByArtistId(artistId: String): List<SongModel> {
-        selection = "${MediaStore.Audio.Media.ARTIST_ID} = ?"
-        selectionArgs = arrayOf(artistId)
+        selection = "${MediaStore.Audio.Media.ARTIST_ID} = ? AND ${MediaStore.Audio.Media.IS_MUSIC} = ?"
+        selectionArgs = arrayOf(artistId, "1")
         sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
 
         return getList()
